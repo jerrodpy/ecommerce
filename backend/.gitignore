@@ -30,3 +30,4 @@ yarn-error.log
 .cache/
 .config
 .local
+.php-cs-fixer.cache
