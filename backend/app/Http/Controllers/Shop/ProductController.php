@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Shop;
 
 use App\Http\Controllers\BaseController;
-use App\Http\Requests\Shop\ListProductRequest;
+use App\Http\Requests\Base\Shop\ListProductRequest;
 use App\Repositories\ProductRepository;
 
 class ProductController extends BaseController
@@ -15,6 +15,8 @@ class ProductController extends BaseController
 
     public function index(ListProductRequest $request)
     {
-        return $this->sendJsonResponse($this->productRepository->paginate($request->validated()));
+        $this->setData($this->productRepository->paginate($request->validated()));
+
+        return $this->sendResponse();
     }
 }

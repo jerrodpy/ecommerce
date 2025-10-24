@@ -15,6 +15,8 @@ class CategoryController extends BaseController
 
     public function index(ListWithPaginationRequest $request)
     {
-        return $this->sendJsonResponse($this->categoryRepository->paginate($request->validated()));
+        $this->setData($this->categoryRepository->paginate($request->validated()));
+
+        return $this->sendResponse();
     }
 }

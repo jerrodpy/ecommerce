@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Shop;
+namespace App\Http\Requests\Base\Shop;
 
 use App\Repositories\Base\PaginableContract;
 use Illuminate\Foundation\Http\FormRequest;
@@ -19,9 +19,6 @@ class ListProductRequest extends FormRequest
      */
     public function rules(): array
     {
-//        dd(array_merge(PaginableContract::REQUEST_RULES, [
-//            'category_id' => 'required|exists:categories,id',
-//        ]));
 
         return array_merge(PaginableContract::REQUEST_RULES, [
             'category_id' => 'required|exists:categories,id',
