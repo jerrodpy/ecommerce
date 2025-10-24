@@ -2,9 +2,9 @@
 
 namespace App\Services;
 
-use App\Http\Requests\Base\Shop\AddProductToCartRequest;
-use App\Http\Requests\Base\Shop\CartRequest;
-use App\Http\Requests\Base\Shop\UpdateProductRequest;
+use App\Http\Requests\Shop\AddProductToCartRequest;
+use App\Http\Requests\Shop\CartRequest;
+use App\Http\Requests\Shop\UpdateProductRequest;
 use App\Models\Cart;
 use App\Models\CartProductPivot;
 use App\Models\Product;

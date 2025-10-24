@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Shop;
 
 use App\Http\Controllers\BaseController;
-use App\Http\Requests\Base\Shop\ListProductRequest;
+use App\Http\Requests\Shop\ListProductRequest;
 use App\Repositories\ProductRepository;
 
 class ProductController extends BaseController

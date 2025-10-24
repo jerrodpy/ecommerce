@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Base\Shop;
+namespace App\Http\Requests\Shop;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CartRequest extends FormRequest
+class AddProductToCartRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -19,10 +19,8 @@ class CartRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'guest_id' => 'required|string',
-            'products' => 'required|array',
-            'products.*.product_id' => 'required|exists:products,id',
-            'products.*.quantity' => 'required|integer|min:1',
+            'product_id' => 'required|exists:products,id',
+            'quantity' => 'required|integer|min:1',
         ];
     }
 }

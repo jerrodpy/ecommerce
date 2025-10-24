@@ -1,11 +1,14 @@
 <?php
 
-namespace App\Http\Requests\Base\Shop;
+namespace App\Http\Requests\Shop;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class AddProductToCartRequest extends FormRequest
+class StoreOrderRequest extends FormRequest
 {
+    /**
+     * Determine if the user is authorized to make this request.
+     */
     public function authorize(): bool
     {
         return true;
@@ -19,8 +22,9 @@ class AddProductToCartRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'product_id' => 'required|exists:products,id',
-            'quantity' => 'required|integer|min:1',
+            'cart_id' => 'required|exists:carts,id',
+            'customer_fio' => 'required|string|max:255',
+            'customer_phone' => 'required|string|max:255',
         ];
     }
 }

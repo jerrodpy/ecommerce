@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Requests\Base\Shop;
+namespace App\Http\Requests\Shop;
 
+use App\Repositories\Base\PaginableContract;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateProductRequest extends FormRequest
+class ListProductRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -18,12 +19,8 @@ class UpdateProductRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'quantity' => [
-                'required',
-                'integer',
-                'min:1',
-            ],
-        ];
+        return array_merge(PaginableContract::REQUEST_RULES, [
+            'category_id' => 'required|exists:categories,id',
+        ]);
     }
 }

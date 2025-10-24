@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Shop;
 
 use App\Http\Controllers\BaseController;
-use App\Http\Requests\Base\Shop\AddProductToCartRequest;
-use App\Http\Requests\Base\Shop\CartRequest;
-use App\Http\Requests\Base\Shop\UpdateProductRequest;
+use App\Http\Requests\Shop\AddProductToCartRequest;
+use App\Http\Requests\Shop\CartRequest;
+use App\Http\Requests\Shop\UpdateProductRequest;
 use App\Http\Resource\Shop\CartResource;
 use App\Models\Cart;
 use App\Models\Product;

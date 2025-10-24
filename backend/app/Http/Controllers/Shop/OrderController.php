@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Shop;
 
 use App\Http\Controllers\BaseController;
-use App\Http\Requests\Base\Shop\StoreOrderRequest;
+use App\Http\Requests\Shop\StoreOrderRequest;
 use App\Services\OrderService;
 
 class OrderController extends BaseController

@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Http\Requests\Base\Shop\StoreOrderRequest;
+use App\Http\Requests\Shop\StoreOrderRequest;
 use App\Models\CartProductPivot;
 use App\Models\Order;
 use App\Models\OrderProductPivot;
