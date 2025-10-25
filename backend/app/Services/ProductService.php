@@ -103,7 +103,12 @@ class ProductService
         $filename = uniqid() . '_' . $originalName . '.' . $extension;
         $savePath = self::FOLDER_WITH_PRODUCT_IMAGES . DIRECTORY_SEPARATOR . $product->{Product::COLUMN_ID};
 
-        Storage::disk()->delete($product->{Product::COLUMN_IMAGE});
+        $imageOldUrl = $product->{Product::COLUMN_IMAGE};
+
+        if ($imageOldUrl) {
+            Storage::disk()->delete($imageOldUrl);
+        }
+
         $imageUrl = Storage::disk()->putFileAs($savePath, $file, $filename);
 
         $product->update([Product::COLUMN_IMAGE => $imageUrl]);
