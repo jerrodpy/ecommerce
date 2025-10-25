@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -19,14 +18,12 @@ class DatabaseSeeder extends Seeder
             'count' => 25,
         ]);
         $this->call(ProductSeeder::class, parameters: [
-            'count' => 25,
+            'count' => 10,
         ]);
 
-        // User::factory(10)->create();
-
-//        User::factory()->create([
-//            'name' => 'Test User',
-//            'email' => 'test@example.com',
-//        ]);
+        $this->call([
+            ProductSeeder::class,
+            OrderSeeder::class,
+        ]);
     }
 }

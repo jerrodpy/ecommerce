@@ -12,7 +12,7 @@ return new class () extends Migration {
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('description', 255)->nullable();
+            $table->string('title', 255)->nullable();
         });
     }
 

@@ -38,9 +38,10 @@ Route::group([
         ], function () {
             Route::resources([
                 'categories' => \App\Http\Controllers\Admin\CategoryController::class,
-                //            'products' => \App\Http\Controllers\Admin\ProductController::class,
-                //            'orders' => \App\Http\Controllers\Admin\OrderController::class,
+                'products' => \App\Http\Controllers\Admin\ProductController::class,
             ], ['except' => ['edit', 'create']]);
+
+            Route::resource('orders', \App\Http\Controllers\Admin\OrderController::class)->only('index', 'update');
         });
     });
 });

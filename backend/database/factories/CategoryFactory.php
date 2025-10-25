@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Category;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +18,7 @@ class CategoryFactory extends Factory
     public function definition(): array
     {
         return [
-            'description' => fake()->unique()->words(rand(1, 3), true),
+            Category::COLUMN_TITLE => fake()->unique()->words(rand(1, 3), true),
         ];
     }
 }
