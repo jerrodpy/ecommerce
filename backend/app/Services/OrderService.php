@@ -32,6 +32,12 @@ class OrderService
             ],
         ]);
 
+        $user = $request->user();
+
+        if ($user) {
+            Arr::set($data, Order::COLUMN_USER_ID, $user->id);
+        }
+
         $order = $this->orderRepository->store($data);
 
         $order->products()->attach($products);

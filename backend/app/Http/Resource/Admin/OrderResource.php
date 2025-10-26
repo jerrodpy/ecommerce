@@ -15,6 +15,7 @@ class OrderResource extends JsonResource
             Order::COLUMN_CUSTOMER_PHONE => $this->{Order::COLUMN_CUSTOMER_PHONE},
             Order::COLUMN_CUSTOMER_FIO => $this->{Order::COLUMN_CUSTOMER_FIO},
             Order::COLUMN_STATUS => $this->{Order::COLUMN_STATUS}->name,
+            Order::COLUMN_USER_ID => $this->{Order::COLUMN_USER_ID},
             Order::RELATION_PRODUCTS => ProductWithoutCategoryResource::collection($this->{Order::RELATION_PRODUCTS}),
             Order::COLUMN_COMMENTS => $this->{Order::COLUMN_COMMENTS},
         ];

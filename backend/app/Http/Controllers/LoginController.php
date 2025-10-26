@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\BaseController;
-use App\Http\Requests\Admin\LoginRequest;
-use App\Http\Requests\Admin\RegisterRequest;
+use App\Http\Requests\Base\LoginRequest;
+use App\Http\Requests\Base\RegisterRequest;
 use App\Http\Resource\Admin\RegisterWithTokenRequest;
-use App\Http\Resource\Admin\UserResource;
+use App\Http\Resource\UserResource;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
@@ -17,9 +16,9 @@ class LoginController extends BaseController
     public function register(RegisterRequest $request)
     {
         $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
+            User::COLUMN_NAME => $request->name,
+            User::COLUMN_EMAIL => $request->email,
+            User::COLUMN_PASSWORD => Hash::make($request->password),
         ]);
 
         $this->setData(UserResource::make($user));
@@ -31,7 +30,7 @@ class LoginController extends BaseController
 
     public function login(LoginRequest $request): JsonResponse
     {
-        $user = User::where('email', $request->email)->first();
+        $user = User::where(User::COLUMN_EMAIL, $request->email)->first();
 
         if (!$user || !Hash::check($request->password, $user->password)) {
             return response()->json([

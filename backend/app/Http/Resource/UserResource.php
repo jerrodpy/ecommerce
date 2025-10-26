@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Resource\Admin;
+namespace App\Http\Resource;
 
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class RegisterWithTokenRequest extends JsonResource
+class UserResource extends JsonResource
 {
     public function toArray(Request $request): array
     {
@@ -17,7 +17,6 @@ class RegisterWithTokenRequest extends JsonResource
             User::COLUMN_EMAIL => $this->{User::COLUMN_EMAIL},
             Model::UPDATED_AT => $this->{Model::UPDATED_AT},
             Model::CREATED_AT => $this->{Model::CREATED_AT},
-            'access_token' => $this->resource->createToken('auth_token')->plainTextToken,
         ];
     }
 }

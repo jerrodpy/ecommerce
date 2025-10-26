@@ -15,15 +15,25 @@ class User extends Authenticatable
     use Notifiable;
     use HasApiTokens;
 
+    public const string TABLE_NAME = 'users';
+
+    public const string COLUMN_ID = 'id';
+
+    public const string COLUMN_NAME = 'name';
+
+    public const string COLUMN_EMAIL = 'email';
+
+    public const string COLUMN_PASSWORD = 'password';
+
     /**
      * The attributes that are mass assignable.
      *
      * @var list<string>
      */
     protected $fillable = [
-        'name',
-        'email',
-        'password',
+        self::COLUMN_NAME,
+        self::COLUMN_EMAIL,
+        self::COLUMN_PASSWORD,
     ];
 
     /**

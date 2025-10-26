@@ -63,6 +63,13 @@ class CartService
     {
         $payload = $request->validated();
         $products = Arr::pull($payload, self::FIELD_PRODUCTS);
+
+        $user = $request->user();
+
+        if ($user) {
+            Arr::set($payload, Cart::COLUMN_USER_ID, $user->id);
+        }
+
         $cart = $this->cartRepository->store($payload);
         $this->attachProducts($cart, $products);
 

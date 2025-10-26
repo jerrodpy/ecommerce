@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\Status;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Order extends Model
 {
@@ -23,6 +24,8 @@ class Order extends Model
 
     public const string COLUMN_STATUS = 'status';
 
+    public const string COLUMN_USER_ID = 'user_id';
+
     public const string RELATION_PRODUCTS = 'products';
 
     protected $fillable = [
@@ -30,12 +33,17 @@ class Order extends Model
         self::COLUMN_CUSTOMER_PHONE,
         self::COLUMN_STATUS,
         self::COLUMN_COMMENTS,
+        self::COLUMN_USER_ID,
     ];
 
     public function products()
     {
         return $this->belongsToMany(Product::class)
             ->withPivot(OrderProductPivot::COLUMN_QUANTITY, OrderProductPivot::COLUMN_PRICE);
+    }
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 
     protected function casts(): array
