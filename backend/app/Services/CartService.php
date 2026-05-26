@@ -62,6 +62,7 @@ class CartService
     public function add(CartRequest $request): Cart
     {
         $payload = $request->validated();
+        $guestId = Arr::get($payload, Cart::COLUMN_GUEST_ID);
         $products = Arr::pull($payload, self::FIELD_PRODUCTS);
 
         $user = $request->user();
@@ -70,7 +71,8 @@ class CartService
             Arr::set($payload, Cart::COLUMN_USER_ID, $user->id);
         }
 
-        $cart = $this->cartRepository->store($payload);
+        $cart = $guestId ? $this->cartRepository->findByGuest($guestId) : null;
+        $cart = $cart ?: $this->cartRepository->store($payload);
         $this->attachProducts($cart, $products);
 
         return $cart->load(Cart::RELATION_PRODUCTS);

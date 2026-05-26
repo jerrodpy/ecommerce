@@ -17,6 +17,11 @@ class CartRepository extends BaseRepository
         return $this->getModel()->create($data);
     }
 
+    public function findByGuest(string $guestId): ?Cart
+    {
+        return $this->getModel()->newQuery()->where(Cart::COLUMN_GUEST_ID, $guestId)->first();
+    }
+
     public function checkProductInCart(int $cartId, int $productId): bool
     {
         return CartProductPivot::where(CartProductPivot::COLUMN_CART_ID, $cartId)

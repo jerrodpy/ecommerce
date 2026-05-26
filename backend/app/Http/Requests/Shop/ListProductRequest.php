@@ -20,7 +20,7 @@ class ListProductRequest extends FormRequest
     public function rules(): array
     {
         return array_merge(PaginableContract::REQUEST_RULES, [
-            'category_id' => 'required|exists:categories,id',
+//            'category_id' => 'sometimes|exists:categories,id',
         ]);
     }
 }
