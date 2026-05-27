@@ -6,11 +6,17 @@
         <router-link to="/" class="navbar-brand mb-0 h1">
           <i class="bi bi-shop"></i> E-commerce
         </router-link>
-        <div class="d-flex gap-3">
+        <div class="d-flex gap-3 align-items-center">
           <router-link to="/cart" class="btn btn-outline-light">
             <i class="bi bi-cart3"></i> Корзина ({{ cartCount }})
           </router-link>
-          <router-link to="/auth" class="btn btn-outline-light">
+          <template v-if="isAuthenticated">
+            <span class="text-light small">{{ user?.name || user?.email }}</span>
+            <button @click="logout" class="btn btn-outline-warning">
+              <i class="bi bi-box-arrow-right"></i> Выйти
+            </button>
+          </template>
+          <router-link v-else to="/auth" class="btn btn-outline-light">
             <i class="bi bi-person"></i> Войти
           </router-link>
         </div>
@@ -33,9 +39,12 @@
 <script setup>
 import { computed } from 'vue'
 import { useCart } from '@/composables/useCart.js'
+import { useAuth } from '@/composables/useAuth.js'
 
 const cartStore = useCart()
 const cartCount = computed(() => cartStore.itemsCount)
+
+const { user, isAuthenticated, logout } = useAuth()
 </script>
 
 <style scoped>
