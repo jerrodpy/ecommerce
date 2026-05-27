@@ -7,7 +7,7 @@
     </div>
     
     <button 
-      @click="showProductForm = true; editingProduct = null" 
+      @click="startAddProduct"
       class="btn btn-success btn-lg mb-4"
     >
       <i class="bi bi-plus-circle"></i> Добавить новый товар
@@ -122,7 +122,7 @@
                         :id="`cat-${category.id}`"
                       >
                       <label class="form-check-label" :for="`cat-${category.id}`">
-                        {{ category.name }}
+                        {{ category.title }}
                       </label>
                     </div>
                     <div v-if="categories.length === 0" class="text-muted small">
@@ -308,6 +308,11 @@ const saveProduct = async () => {
   }
 }
 
+const startAddProduct = () => {
+  cancelEdit()
+  showProductForm.value = true
+}
+
 const cancelEdit = () => {
   showProductForm.value = false
   editingProduct.value = null
@@ -334,7 +339,7 @@ const deleteProduct = async (id) => {
 
 const getCategoryName = (categoryId) => {
   const category = categories.value.find(c => c.id === categoryId)
-  return category ? category.name : 'Неизвестная'
+  return category ? category.title : 'Неизвестная'
 }
 
 const truncate = (text, length) => {
@@ -343,7 +348,7 @@ const truncate = (text, length) => {
 }
 
 onMounted(() => {
-  productsStore.fetchProducts()
+  productsStore.fetchAdminProducts()
   categoriesStore.fetchCategories()
 })
 </script>
