@@ -11,7 +11,7 @@
     <div v-else>
       <CartItem
         v-for="item in items"
-        :key="item.id"
+        :key="item.product_id"
         :item="item"
         @update-quantity="updateQuantity"
         @remove="removeItem"
@@ -41,7 +41,7 @@
 <script setup>
 import { computed } from 'vue'
 import CartItem from '../../components/client/CartItem.vue'
-import { items, useCart } from '@/composables/useCart.js'
+import { items, useCart } from '../../composables/useCart.js'
 
 const cartStore = useCart()
 

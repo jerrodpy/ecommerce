@@ -174,7 +174,7 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
-import { useOrders } from '@/composables/useOrders.js'
+import { useOrders } from '../../composables/useOrders.js'
 
 const STATUS_OPTIONS = [
   { value: 'Pending',    label: 'Ожидает',     num: 0 },

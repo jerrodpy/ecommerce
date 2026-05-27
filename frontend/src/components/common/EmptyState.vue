@@ -17,7 +17,9 @@
 </template>
 
 <script setup>
-defineProps({
+import { computed } from 'vue'
+
+const props = defineProps({
   icon: {
     type: String,
     default: 'bi bi-inbox'
@@ -41,31 +43,6 @@ defineProps({
 })
 
 defineEmits(['action'])
-
-// Для обратной совместимости с iconClass
-import { computed } from 'vue'
-const props = defineProps({
-  icon: {
-    type: String,
-    default: 'bi bi-inbox'
-  },
-  title: {
-    type: String,
-    default: 'Нет данных'
-  },
-  description: {
-    type: String,
-    default: 'Здесь пока ничего нет'
-  },
-  actionText: {
-    type: String,
-    default: ''
-  },
-  actionIcon: {
-    type: String,
-    default: 'bi bi-plus-circle'
-  }
-})
 
 const iconClass = computed(() => props.icon)
 </script>

@@ -5,9 +5,9 @@
       <i v-else class="bi bi-image"></i>
     </div>
     <div class="card-body">
-      <h5 class="card-title">{{ product.title }} 555</h5>
+      <h5 class="card-title">{{ product.title }}</h5>
       <p class="card-text text-muted">{{ product.description }}</p>
-      <p class="h4 text-success mb-3">{{ product.price }} $</p>
+      <p class="h4 text-success mb-3">{{ product.price }} ₽</p>
       <button @click="$emit('add-to-cart', product)" class="btn btn-success w-100">
         <i class="bi bi-cart-plus"></i> В корзину
       </button>

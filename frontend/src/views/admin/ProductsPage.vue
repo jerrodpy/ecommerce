@@ -232,8 +232,8 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
-import { useProducts } from '@/composables/useProducts.js'
-import { useCategories } from '@/composables/useCategories.js'
+import { useProducts } from '../../composables/useProducts.js'
+import { useCategories } from '../../composables/useCategories.js'
 
 const productsStore = useProducts()
 const categoriesStore = useCategories()

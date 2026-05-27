@@ -88,8 +88,8 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { useCart } from '@/composables/useCart.js'
-import { clientService } from '@/services/client.js'
+import { useCart } from '../../composables/useCart.js'
+import { clientService } from '../../services/client.js'
 
 const router = useRouter()
 const cartStore = useCart()

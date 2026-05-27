@@ -1,52 +1,52 @@
 import { ref, computed } from 'vue'
+import { api } from '../services/api.js'
+import router from '../router/index.js'
 
 const user = ref(null)
 const token = ref(null)
 const loading = ref(false)
 const error = ref(null)
 
-// Загружаем из localStorage при инициализации
-const loadFromLocalStorage = () => {
-  const savedUser = localStorage.getItem('user')
-  const savedToken = localStorage.getItem('token')
+// Load persisted state from localStorage on module init
+const savedToken = localStorage.getItem('token')
+const savedUser = localStorage.getItem('user')
 
-  if (savedUser && savedToken) {
+if (savedToken) {
+  token.value = savedToken
+}
+
+if (savedUser) {
+  try {
     user.value = JSON.parse(savedUser)
-    token.value = savedToken
+  } catch {
+    localStorage.removeItem('user')
   }
 }
 
-loadFromLocalStorage()
-
 export function useAuth() {
-  // Getters
   const isAuthenticated = computed(() => !!token.value)
   const isAdmin = computed(() => user.value?.role === 'admin')
 
-  // Actions
-  const login = async (credentials) => {
+  const login = async ({ email, password }) => {
     loading.value = true
     error.value = null
 
     try {
-      await new Promise(resolve => setTimeout(resolve, 500))
+      const response = await api.post('/login', { email, password })
+      const data = response.data
 
-      const mockUser = {
-        id: 1,
-        email: credentials.email,
-        name: 'Иван Иванов',
-        role: credentials.email.includes('admin') ? 'admin' : 'user'
+      token.value = data.access_token
+      user.value = {
+        id: data.id,
+        name: data.name,
+        email: data.email,
+        role: data.role ?? null,
       }
 
-      const mockToken = 'mock-jwt-token-' + Date.now()
+      localStorage.setItem('token', data.access_token)
+      localStorage.setItem('user', JSON.stringify(user.value))
 
-      user.value = mockUser
-      token.value = mockToken
-
-      localStorage.setItem('user', JSON.stringify(mockUser))
-      localStorage.setItem('token', mockToken)
-
-      return mockUser
+      return { success: true }
     } catch (err) {
       error.value = err.message
       throw err
@@ -55,30 +55,14 @@ export function useAuth() {
     }
   }
 
-  const register = async (userData) => {
+  const register = async ({ name, email, password, passwordConfirm }) => {
     loading.value = true
     error.value = null
 
     try {
-      await new Promise(resolve => setTimeout(resolve, 500))
-
-      const mockUser = {
-        id: Date.now(),
-        email: userData.email,
-        name: userData.name,
-        phone: userData.phone,
-        role: 'user'
-      }
-
-      const mockToken = 'mock-jwt-token-' + Date.now()
-
-      user.value = mockUser
-      token.value = mockToken
-
-      localStorage.setItem('user', JSON.stringify(mockUser))
-      localStorage.setItem('token', mockToken)
-
-      return mockUser
+      await api.post('/register', { email, password })
+      // After successful registration, log in to obtain an access token
+      return await login({ email, password })
     } catch (err) {
       error.value = err.message
       throw err
@@ -88,10 +72,11 @@ export function useAuth() {
   }
 
   const logout = () => {
-    user.value = null
     token.value = null
-    localStorage.removeItem('user')
+    user.value = null
     localStorage.removeItem('token')
+    localStorage.removeItem('user')
+    router.push('/auth')
   }
 
   return {
@@ -103,6 +88,6 @@ export function useAuth() {
     isAdmin,
     login,
     register,
-    logout
+    logout,
   }
 }

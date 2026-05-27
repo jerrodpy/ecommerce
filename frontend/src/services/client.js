@@ -5,8 +5,9 @@ export const clientService = {
     products: (params) => api.get('/products', params),
     orders: () => api.get('/orders'),
 
-    addToCarts: (data) => api.post('/carts', data),
-    addProductToCarts: (data, cart) => api.put('/carts/' + cart + '/add' , data),
-    updateProductInCarts: (data, cart, product) => api.put('/carts/'+ cart + '/products/' + product, data),
-    deleteProductFromCarts: (data, cart, product) => api.delete('/carts/'+ cart + '/products/' + product, data),
+    getCart: (guestId) => api.get('/carts', { guest_id: guestId }),
+    addToCart: (data) => api.post('/carts/items', data),
+    updateProductInCart: (cartId, productId, data) => api.put('/carts/' + cartId + '/products/' + productId, data),
+    deleteProductFromCart: (productId, guestId) => api.delete('/carts/items/' + productId + '?guest_id=' + encodeURIComponent(guestId)),
+    createOrder: (data) => api.post('/orders', data),
 }

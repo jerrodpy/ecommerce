@@ -4,13 +4,13 @@
       <div class="row align-items-center">
         <div class="col-md-2">
           <div class="cart-item-image">
-            <img v-if="item.image" :src="item.image" :alt="item.title" class="w-100">
+            <img v-if="item.product && item.product.image" :src="item.product.image" :alt="item.product.title" class="w-100">
             <i v-else class="bi bi-image"></i>
           </div>
         </div>
         <div class="col-md-4">
-          <h5>{{ item.title }}</h5>
-          <p class="text-muted mb-0">Цена: {{ item.price }} $</p>
+          <h5>{{ item.product?.title }}</h5>
+          <p class="text-muted mb-0">Цена: {{ item.product?.price ?? '' }} ₽</p>
         </div>
         <div class="col-md-6">
           <div class="d-flex align-items-center justify-content-end gap-2">
@@ -33,9 +33,9 @@
               <i class="bi bi-plus"></i>
             </button>
             <span class="fw-bold ms-3" style="min-width: 100px;">
-              {{ item.price * item.quantity }} ₽
+              {{ (item.product && item.product.price ? item.product.price * item.quantity : 0) }} ₽
             </span>
-            <button @click="$emit('remove', item.id)" class="btn btn-danger">
+            <button @click="$emit('remove', item.product_id)" class="btn btn-danger">
               <i class="bi bi-trash"></i>
             </button>
           </div>
@@ -58,17 +58,17 @@ const emit = defineEmits(['update-quantity', 'remove'])
 const updateQuantity = (value) => {
   const quantity = parseInt(value)
   if (quantity > 0) {
-    emit('update-quantity', props.item.id, quantity)
+    emit('update-quantity', props.item.product_id, quantity)
   }
 }
 
 const increaseQuantity = () => {
-  emit('update-quantity', props.item.id, props.item.quantity + 1)
+  emit('update-quantity', props.item.product_id, props.item.quantity + 1)
 }
 
 const decreaseQuantity = () => {
   if (props.item.quantity > 1) {
-    emit('update-quantity', props.item.id, props.item.quantity - 1)
+    emit('update-quantity', props.item.product_id, props.item.quantity - 1)
   }
 }
 </script>

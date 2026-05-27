@@ -16,10 +16,10 @@
           <div class="row">
             <div class="col-md-10">
               <label class="form-label fw-bold">Название категории</label>
-              <input 
-                v-model="newCategory.name" 
-                type="text" 
-                class="form-control" 
+              <input
+                v-model="newCategory.title"
+                type="text"
+                class="form-control"
                 placeholder="Например: Электроника"
                 required
               >
@@ -54,11 +54,11 @@
               <tr v-for="category in categories" :key="category.id">
                 <td>{{ category.id }}</td>
                 <td>
-                  <span v-if="editingId !== category.id">{{ category.name }}</span>
-                  <input 
-                    v-else 
-                    v-model="editForm.name"
-                    type="text" 
+                  <span v-if="editingId !== category.id">{{ category.title }}</span>
+                  <input
+                    v-else
+                    v-model="editForm.title"
+                    type="text"
                     class="form-control form-control-sm"
                   >
                 </td>
@@ -100,25 +100,25 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
-import { useCategories } from '@/composables/useCategories.js'
+import { useCategories } from '../../composables/useCategories.js'
 
 const categoriesStore = useCategories()
 
 const categories = computed(() => categoriesStore.categories)
 
 const newCategory = ref({
-  name: ''
+  title: ''
 })
 
 const editingId = ref(null)
 const editForm = ref({
-  name: ''
+  title: ''
 })
 
 const addCategory = async () => {
   try {
     await categoriesStore.addCategory(newCategory.value)
-    newCategory.value.name = ''
+    newCategory.value.title = ''
     alert('Категория успешно добавлена!')
   } catch (error) {
     alert('Ошибка при добавлении категории: ' + error.message)
@@ -127,7 +127,7 @@ const addCategory = async () => {
 
 const startEdit = (category) => {
   editingId.value = category.id
-  editForm.value.name = category.name
+  editForm.value.title = category.title
 }
 
 const saveEdit = async () => {

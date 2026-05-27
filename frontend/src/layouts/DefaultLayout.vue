@@ -38,8 +38,8 @@
 
 <script setup>
 import { computed } from 'vue'
-import { useCart } from '@/composables/useCart.js'
-import { useAuth } from '@/composables/useAuth.js'
+import { useCart } from '../composables/useCart.js'
+import { useAuth } from '../composables/useAuth.js'
 
 const cartStore = useCart()
 const cartCount = computed(() => cartStore.itemsCount)

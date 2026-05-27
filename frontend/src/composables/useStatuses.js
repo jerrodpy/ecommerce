@@ -1,5 +1,5 @@
 import { ref } from 'vue'
-import { statusesService } from '@/services/statuses'
+import { statusesService } from '../services/statuses.js'
 
 const statuses = ref([])
 const loading = ref(false)

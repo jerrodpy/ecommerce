@@ -1,5 +1,5 @@
 import { ref } from 'vue'
-import {clientService} from "@/services/client.js";
+import { categoriesService } from '../services/categories.js'
 
 const categories = ref([])
 const loading = ref(false)
@@ -10,14 +10,62 @@ export function useCategories() {
     loading.value = true
     error.value = null
 
-      try {
-          const data = await clientService.categories()
-          categories.value = data.data.items || data.data || data
-      } catch (err) {
-          error.value = err.message
-      } finally {
-          loading.value = false
+    try {
+      const response = await categoriesService.getAll()
+      categories.value = response.data.items
+    } catch (err) {
+      error.value = err.message
+    } finally {
+      loading.value = false
+    }
+  }
+
+  const addCategory = async (data) => {
+    loading.value = true
+    error.value = null
+
+    try {
+      const response = await categoriesService.create({ title: data.title })
+      categories.value.push(response.data)
+    } catch (err) {
+      error.value = err.message
+      throw err
+    } finally {
+      loading.value = false
+    }
+  }
+
+  const updateCategory = async (id, data) => {
+    loading.value = true
+    error.value = null
+
+    try {
+      const response = await categoriesService.update(id, { title: data.title })
+      const index = categories.value.findIndex(c => c.id === id)
+      if (index !== -1) {
+        categories.value[index] = response.data
       }
+    } catch (err) {
+      error.value = err.message
+      throw err
+    } finally {
+      loading.value = false
+    }
+  }
+
+  const deleteCategory = async (id) => {
+    loading.value = true
+    error.value = null
+
+    try {
+      await categoriesService.delete(id)
+      categories.value = categories.value.filter(c => c.id !== id)
+    } catch (err) {
+      error.value = err.message
+      throw err
+    } finally {
+      loading.value = false
+    }
   }
 
   return {
@@ -25,5 +73,8 @@ export function useCategories() {
     loading,
     error,
     fetchCategories,
+    addCategory,
+    updateCategory,
+    deleteCategory,
   }
 }

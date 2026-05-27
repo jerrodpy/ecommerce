@@ -37,17 +37,14 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
-import { useCategories } from '@/composables/useCategories.js'
-import { useProducts } from '@/composables/useProducts.js'
-import ProductCard from '@/components/client/ProductCard.vue'
-import Filters from '@/components/client/Filters.vue'
-import { useCart } from '@/composables/useCart.js'
+import { ref, onMounted } from 'vue'
+import { useProducts } from '../../composables/useProducts.js'
+import ProductCard from '../../components/client/ProductCard.vue'
+import Filters from '../../components/client/Filters.vue'
+import { useCart } from '../../composables/useCart.js'
 
-const { products, fetchProducts, getFilteredProducts } = useProducts()
+const { products, fetchProducts } = useProducts()
 const { addItem } = useCart()
-const { categories, loading, error, fetchCategories } = useCategories()
-const selectedCategory = ref('')
 
 const filters = ref({
   category: '',
@@ -76,10 +73,6 @@ const addToCart = (product) => {
 
 onMounted(async () => {
   await fetchProducts()
-  await fetchCategories()
-
-  console.log('Categories:', categories.value)
-  console.log('products::', products.value)
 })
 
 </script>

@@ -1,6 +1,6 @@
 <script setup>
 import { onMounted } from 'vue'
-import { useCart } from '@/composables/useCart.js'
+import { useCart } from './composables/useCart.js'
 
 const { initCart } = useCart()
 onMounted(() => initCart())

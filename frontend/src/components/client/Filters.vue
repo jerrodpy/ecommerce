@@ -51,8 +51,8 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
-import { useCategories } from '@/composables/useCategories.js'
+import { onMounted } from 'vue'
+import { useCategories } from '../../composables/useCategories.js'
 
 defineProps({
   category: String,
@@ -62,7 +62,9 @@ defineProps({
 
 defineEmits(['update:category', 'update:priceFrom', 'update:priceTo', 'apply', 'reset'])
 
-const categoriesStore = useCategories()
 const { categories, loading, error, fetchCategories } = useCategories()
-// const categories = computed(() => categoriesStore.categories)
+
+onMounted(() => {
+  fetchCategories()
+})
 </script>
