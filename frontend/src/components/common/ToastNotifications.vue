@@ -20,6 +20,6 @@
 </template>
 
 <script setup>
-import { useToast } from '../../composables/useToast.js'
-const { toasts, remove } = useToast()
+import { useToast } from '../../composables/useToast.js';
+const { toasts, remove } = useToast();
 </script>

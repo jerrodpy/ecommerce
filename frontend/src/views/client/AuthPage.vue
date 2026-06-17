@@ -18,7 +18,7 @@
                   class="form-control"
                   placeholder="example@mail.com"
                   required
-                >
+                />
               </div>
 
               <div class="mb-3">
@@ -29,7 +29,7 @@
                   class="form-control"
                   placeholder="********"
                   required
-                >
+                />
               </div>
 
               <button type="submit" class="btn btn-primary w-100 mb-2">Увійти</button>
@@ -54,7 +54,7 @@
                   class="form-control"
                   placeholder="Іванов Іван Іванович"
                   required
-                >
+                />
               </div>
 
               <div class="mb-3">
@@ -65,7 +65,7 @@
                   class="form-control"
                   placeholder="example@mail.com"
                   required
-                >
+                />
               </div>
 
               <div class="mb-3">
@@ -75,7 +75,7 @@
                   type="tel"
                   class="form-control"
                   placeholder="+38 (099) 123-45-67"
-                >
+                />
               </div>
 
               <div class="mb-3">
@@ -86,7 +86,7 @@
                   class="form-control"
                   placeholder="********"
                   required
-                >
+                />
               </div>
 
               <div class="mb-3">
@@ -97,7 +97,7 @@
                   class="form-control"
                   placeholder="********"
                   required
-                >
+                />
               </div>
 
               <button type="submit" class="btn btn-success w-100">Зареєструватися</button>
@@ -110,50 +110,50 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
-import { useAuth } from '../../composables/useAuth.js'
-import { useToast } from '../../composables/useToast.js'
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+import { useAuth } from '../../composables/useAuth.js';
+import { useToast } from '../../composables/useToast.js';
 
-const router = useRouter()
-const authStore = useAuth()
-const toast = useToast()
+const router = useRouter();
+const authStore = useAuth();
+const toast = useToast();
 
 const loginForm = ref({
   email: '',
-  password: ''
-})
+  password: '',
+});
 
 const registerForm = ref({
   name: '',
   email: '',
   phone: '',
   password: '',
-  passwordConfirm: ''
-})
+  passwordConfirm: '',
+});
 
 const login = async () => {
   try {
-    await authStore.login(loginForm.value)
-    toast.success('Вхід виконано успішно!')
-    router.push('/')
+    await authStore.login(loginForm.value);
+    toast.success('Вхід виконано успішно!');
+    router.push('/');
   } catch (error) {
-    toast.error('Помилка входу: ' + error.message)
+    toast.error('Помилка входу: ' + error.message);
   }
-}
+};
 
 const register = async () => {
   if (registerForm.value.password !== registerForm.value.passwordConfirm) {
-    toast.error('Паролі не збігаються!')
-    return
+    toast.error('Паролі не збігаються!');
+    return;
   }
 
   try {
-    await authStore.register(registerForm.value)
-    toast.success('Реєстрація успішна!')
-    router.push('/')
+    await authStore.register(registerForm.value);
+    toast.success('Реєстрація успішна!');
+    router.push('/');
   } catch (error) {
-    toast.error('Помилка реєстрації: ' + error.message)
+    toast.error('Помилка реєстрації: ' + error.message);
   }
-}
+};
 </script>

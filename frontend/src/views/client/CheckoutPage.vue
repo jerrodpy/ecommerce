@@ -15,16 +15,14 @@
           <div class="card-body">
             <form @submit.prevent="submitOrder">
               <div class="mb-3">
-                <label class="form-label fw-bold">
-                  ПІБ <span class="text-danger">*</span>
-                </label>
+                <label class="form-label fw-bold"> ПІБ <span class="text-danger">*</span> </label>
                 <input
                   v-model="formData.customer_fio"
                   type="text"
                   class="form-control"
                   placeholder="Іванов Іван Іванович"
                   required
-                >
+                />
               </div>
 
               <div class="mb-3">
@@ -37,7 +35,7 @@
                   class="form-control"
                   placeholder="+38 (099) 123-45-67"
                   required
-                >
+                />
               </div>
             </form>
           </div>
@@ -61,7 +59,7 @@
               </div>
             </div>
 
-            <hr>
+            <hr />
 
             <div class="d-flex justify-content-between mb-4">
               <h4>Разом:</h4>
@@ -84,56 +82,56 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
-import { useCart } from '../../composables/client/useCart.js'
-import { clientService } from '../../services/client.js'
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+import { useCart } from '../../composables/client/useCart.js';
+import { clientService } from '../../services/client.js';
 
-const router = useRouter()
-const { items: cartItems, cartId, totalPrice, clearCart } = useCart()
+const router = useRouter();
+const { items: cartItems, cartId, totalPrice, clearCart } = useCart();
 
 const formData = ref({
   customer_fio: '',
-  customer_phone: ''
-})
+  customer_phone: '',
+});
 
-const isSubmitting = ref(false)
-const errorMessage = ref('')
+const isSubmitting = ref(false);
+const errorMessage = ref('');
 
 const submitOrder = async () => {
-  errorMessage.value = ''
+  errorMessage.value = '';
 
   if (!formData.value.customer_fio.trim() || !formData.value.customer_phone.trim()) {
-    errorMessage.value = 'Будь ласка, заповніть усі обов\'язкові поля (ПІБ та телефон)'
-    return
+    errorMessage.value = "Будь ласка, заповніть усі обов'язкові поля (ПІБ та телефон)";
+    return;
   }
 
   if (!cartId.value) {
-    errorMessage.value = 'Кошик порожній або не знайдений. Додайте товари до кошика.'
-    return
+    errorMessage.value = 'Кошик порожній або не знайдений. Додайте товари до кошика.';
+    return;
   }
 
-  isSubmitting.value = true
+  isSubmitting.value = true;
 
   try {
     const orderData = {
       cart_id: cartId.value,
       customer_fio: formData.value.customer_fio.trim(),
-      customer_phone: formData.value.customer_phone.trim()
-    }
+      customer_phone: formData.value.customer_phone.trim(),
+    };
 
-    const response = await clientService.createOrder(orderData)
+    const response = await clientService.createOrder(orderData);
 
     if (response && response.success) {
-      clearCart()
-      router.push('/')
+      clearCart();
+      router.push('/');
     } else {
-      errorMessage.value = response?.message || 'Виникла помилка при оформленні замовлення'
+      errorMessage.value = response?.message || 'Виникла помилка при оформленні замовлення';
     }
   } catch (error) {
-    errorMessage.value = error.message || 'Виникла помилка при оформленні замовлення'
+    errorMessage.value = error.message || 'Виникла помилка при оформленні замовлення';
   } finally {
-    isSubmitting.value = false
+    isSubmitting.value = false;
   }
-}
+};
 </script>

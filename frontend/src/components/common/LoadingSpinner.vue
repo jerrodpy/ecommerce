@@ -1,5 +1,5 @@
 <template>
-  <div class="loading-spinner" :class="{ 'fullscreen': fullscreen }">
+  <div class="loading-spinner" :class="{ fullscreen: fullscreen }">
     <div class="spinner-border" :class="sizeClass" :style="{ color: color }" role="status">
       <span class="visually-hidden">Завантаження...</span>
     </div>
@@ -8,36 +8,36 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed } from 'vue';
 
 const props = defineProps({
   size: {
     type: String,
     default: 'md',
-    validator: (value) => ['sm', 'md', 'lg'].includes(value)
+    validator: (value) => ['sm', 'md', 'lg'].includes(value),
   },
   color: {
     type: String,
-    default: '#0d6efd'
+    default: '#0d6efd',
   },
   text: {
     type: String,
-    default: ''
+    default: '',
   },
   fullscreen: {
     type: Boolean,
-    default: false
-  }
-})
+    default: false,
+  },
+});
 
 const sizeClass = computed(() => {
   const sizes = {
     sm: 'spinner-border-sm',
     md: '',
-    lg: 'spinner-border-lg'
-  }
-  return sizes[props.size]
-})
+    lg: 'spinner-border-lg',
+  };
+  return sizes[props.size];
+});
 </script>
 
 <style scoped>

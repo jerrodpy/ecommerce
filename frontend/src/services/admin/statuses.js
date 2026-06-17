@@ -1,5 +1,5 @@
-import { api } from '../api.js'
+import { api } from '../api.js';
 
 export const statusesService = {
-    getAll: () => api.get('/admin/status'),
-}
+  getAll: () => api.get('/admin/status'),
+};

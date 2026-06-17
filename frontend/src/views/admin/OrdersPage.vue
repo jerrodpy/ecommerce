@@ -3,7 +3,8 @@
     <h2 class="mb-4">Управління замовленнями</h2>
 
     <div class="alert alert-info">
-      <i class="bi bi-info-circle"></i> Адміністратор може переглядати замовлення та змінювати їх статус
+      <i class="bi bi-info-circle"></i> Адміністратор може переглядати замовлення та змінювати їх
+      статус
     </div>
 
     <div class="card mb-4">
@@ -45,12 +46,12 @@
           <table class="table table-hover mb-0">
             <thead class="table-dark">
               <tr>
-                <th style="width: 50px;">ID</th>
+                <th style="width: 50px">ID</th>
                 <th>ПІБ клієнта</th>
                 <th>Телефон</th>
                 <th>Дата</th>
                 <th>Статус</th>
-                <th style="width: 150px;">Дії</th>
+                <th style="width: 150px">Дії</th>
               </tr>
             </thead>
             <tbody>
@@ -62,20 +63,19 @@
                 :key="order.id"
                 :class="{ 'table-warning': order.status === 'New' }"
               >
-                <td><strong>#{{ order.id }}</strong></td>
+                <td>
+                  <strong>#{{ order.id }}</strong>
+                </td>
                 <td>{{ order.customer_fio }}</td>
                 <td>{{ order.customer_phone }}</td>
-                <td><small>{{ formatDate(order.created_at) }}</small></td>
                 <td>
-                  <span class="badge status-badge" :class="getStatusClass(order.status)">
-                    {{ statusLabel(order.status) }}
-                  </span>
+                  <small>{{ formatDate(order.created_at) }}</small>
                 </td>
                 <td>
-                  <button
-                    @click="viewOrderDetails(order)"
-                    class="btn btn-sm btn-info text-white"
-                  >
+                  <StatusBadge :status="order.status" />
+                </td>
+                <td>
+                  <button @click="viewOrderDetails(order)" class="btn btn-sm btn-info text-white">
                     <i class="bi bi-eye"></i> Деталі
                   </button>
                 </td>
@@ -91,7 +91,7 @@
         v-if="selectedOrder"
         class="modal d-block"
         tabindex="-1"
-        style="background: rgba(0,0,0,0.5);"
+        style="background: rgba(0, 0, 0, 0.5)"
         @click.self="selectedOrder = null"
       >
         <div class="modal-dialog modal-lg modal-dialog-scrollable">
@@ -108,11 +108,17 @@
                   <h6 class="text-muted">Інформація про клієнта</h6>
                   <p class="mb-1"><strong>ПІБ:</strong> {{ selectedOrder.customer_fio }}</p>
                   <p class="mb-1"><strong>Телефон:</strong> {{ selectedOrder.customer_phone }}</p>
-                  <p class="mb-1"><strong>Дата замовлення:</strong> {{ formatDate(selectedOrder.created_at) }}</p>
+                  <p class="mb-1">
+                    <strong>Дата замовлення:</strong> {{ formatDate(selectedOrder.created_at) }}
+                  </p>
                 </div>
                 <div class="col-md-6">
                   <h6 class="text-muted">Управління замовленням</h6>
-                  <label class="form-label fw-bold">Статус замовлення</label>
+                  <p class="mb-2">
+                    <strong>Поточний статус:</strong>
+                    <StatusBadge :status="selectedOrder.status" class="ms-2" />
+                  </p>
+                  <label class="form-label fw-bold">Змінити статус</label>
                   <select v-model="selectedStatus" class="form-select mb-2">
                     <option v-for="s in STATUS_OPTIONS" :key="s.value" :value="s.value">
                       {{ s.label }}
@@ -140,7 +146,14 @@
                       <td>{{ product.title }}</td>
                       <td>{{ product.price }} ₴</td>
                       <td>{{ product.pivot?.quantity ?? product.quantity ?? 1 }}</td>
-                      <td><strong>{{ product.price * (product.pivot?.quantity ?? product.quantity ?? 1) }} ₴</strong></td>
+                      <td>
+                        <strong
+                          >{{
+                            product.price * (product.pivot?.quantity ?? product.quantity ?? 1)
+                          }}
+                          ₴</strong
+                        >
+                      </td>
                     </tr>
                     <tr v-if="!selectedOrder.products || selectedOrder.products.length === 0">
                       <td colspan="4" class="text-center text-muted">Немає товарів</td>
@@ -164,11 +177,7 @@
                 rows="3"
                 placeholder="Введіть коментар до замовлення..."
               ></textarea>
-              <button
-                @click="addComment"
-                class="btn btn-success"
-                :disabled="!newComment.trim()"
-              >
+              <button @click="addComment" class="btn btn-success" :disabled="!newComment.trim()">
                 <i class="bi bi-chat-dots"></i> Додати коментар
               </button>
             </div>
@@ -180,103 +189,87 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
-import { useOrders } from '../../composables/admin/useOrders.js'
-import { useToast } from '../../composables/useToast.js'
+import { ref, computed, onMounted } from 'vue';
+import { useOrders } from '../../composables/admin/useOrders.js';
+import { useToast } from '../../composables/useToast.js';
+import StatusBadge from '../../components/common/StatusBadge.vue';
 
 const STATUS_OPTIONS = [
-  { value: 'Pending',    label: 'Очікує',     num: 0 },
-  { value: 'New',        label: 'Новий',       num: 1 },
-  { value: 'Processing', label: 'В обробці',   num: 2 },
-  { value: 'Completed',  label: 'Виконано',    num: 3 },
-  { value: 'Canceled',   label: 'Скасовано',   num: 4 },
-]
+  { value: 'Pending', label: 'Очікує', num: 0 },
+  { value: 'New', label: 'Новий', num: 1 },
+  { value: 'Processing', label: 'В обробці', num: 2 },
+  { value: 'Completed', label: 'Виконано', num: 3 },
+  { value: 'Canceled', label: 'Скасовано', num: 4 },
+];
 
-const ordersStore = useOrders()
-const orders = ordersStore.orders
-const loading = ordersStore.loading
-const error = ordersStore.error
-const toast = useToast()
+const ordersStore = useOrders();
+const orders = ordersStore.orders;
+const loading = ordersStore.loading;
+const error = ordersStore.error;
+const toast = useToast();
 
-const selectedOrder = ref(null)
-const selectedStatus = ref('')
-const statusFilter = ref('')
-const newComment = ref('')
+const selectedOrder = ref(null);
+const selectedStatus = ref('');
+const statusFilter = ref('');
+const newComment = ref('');
 
 const filteredOrders = computed(() => {
-  if (!statusFilter.value) return orders.value
-  return orders.value.filter(o => o.status === statusFilter.value)
-})
+  if (!statusFilter.value) return orders.value;
+  return orders.value.filter((o) => o.status === statusFilter.value);
+});
 
 const countByStatus = (status) => {
-  if (!Array.isArray(orders.value)) return 0
-  return orders.value.filter(o => o.status === status).length
-}
-
-const statusLabel = (value) => {
-  return STATUS_OPTIONS.find(s => s.value === value)?.label ?? value
-}
-
-const getStatusClass = (status) => {
-  const map = {
-    Pending:    'bg-secondary',
-    New:        'bg-warning text-dark',
-    Processing: 'bg-info',
-    Completed:  'bg-success',
-    Canceled:   'bg-danger',
-  }
-  return map[status] ?? 'bg-secondary'
-}
+  if (!Array.isArray(orders.value)) return 0;
+  return orders.value.filter((o) => o.status === status).length;
+};
 
 const viewOrderDetails = (order) => {
-  selectedOrder.value = { ...order }
-  selectedStatus.value = order.status
-}
+  selectedOrder.value = { ...order };
+  selectedStatus.value = order.status;
+};
 
 const saveOrderStatus = async () => {
-  const option = STATUS_OPTIONS.find(s => s.value === selectedStatus.value)
-  if (!option) return
+  const option = STATUS_OPTIONS.find((s) => s.value === selectedStatus.value);
+  if (!option) return;
 
   try {
-    await ordersStore.updateOrderStatus(selectedOrder.value.id, { status: option.num })
-    selectedOrder.value.status = selectedStatus.value
-    toast.success('Статус замовлення успішно оновлено!')
+    await ordersStore.updateOrderStatus(selectedOrder.value.id, { status: option.num });
+    selectedOrder.value.status = selectedStatus.value;
+    toast.success('Статус замовлення успішно оновлено!');
   } catch (err) {
-    toast.error('Помилка при оновленні статусу: ' + err.message)
+    toast.error('Помилка при оновленні статусу: ' + err.message);
   }
-}
+};
 
 const addComment = async () => {
-  if (!newComment.value.trim()) return
+  if (!newComment.value.trim()) return;
   try {
-    await ordersStore.addComment(selectedOrder.value.id, newComment.value.trim())
-    selectedOrder.value.comments = newComment.value.trim()
-    newComment.value = ''
-    toast.success('Коментар успішно додано!')
+    await ordersStore.addComment(selectedOrder.value.id, newComment.value.trim());
+    selectedOrder.value.comments = newComment.value.trim();
+    newComment.value = '';
+    toast.success('Коментар успішно додано!');
   } catch (err) {
-    toast.error('Помилка при додаванні коментаря: ' + err.message)
+    toast.error('Помилка при додаванні коментаря: ' + err.message);
   }
-}
+};
 
 const formatDate = (dateString) => {
-  if (!dateString) return '—'
+  if (!dateString) return '—';
   return new Date(dateString).toLocaleString('uk-UA', {
-    year: 'numeric', month: '2-digit', day: '2-digit',
-    hour: '2-digit', minute: '2-digit',
-  })
-}
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+  });
+};
 
 onMounted(() => {
-  ordersStore.fetchOrders()
-})
+  ordersStore.fetchOrders();
+});
 </script>
 
 <style scoped>
-.status-badge {
-  font-size: 0.875rem;
-  padding: 0.375rem 0.75rem;
-}
-
 .comment-item {
   background: #f8f9fa;
   border-left: 3px solid #0d6efd;

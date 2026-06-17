@@ -38,8 +38,8 @@
 </template>
 
 <script setup>
-import CartItem from '../../components/client/CartItem.vue'
-import { useCart } from '../../composables/client/useCart.js'
+import CartItem from '../../components/client/CartItem.vue';
+import { useCart } from '../../composables/client/useCart.js';
 
-const { items, removingIds, itemsCount, totalPrice, updateQuantity, removeItem } = useCart()
+const { items, removingIds, itemsCount, totalPrice, updateQuantity, removeItem } = useCart();
 </script>

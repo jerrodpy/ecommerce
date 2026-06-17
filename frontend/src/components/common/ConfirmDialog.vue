@@ -3,7 +3,7 @@
     <div
       v-if="state.visible"
       class="modal d-block"
-      style="background: rgba(0,0,0,0.5); z-index: 1200"
+      style="background: rgba(0, 0, 0, 0.5); z-index: 1200"
     >
       <div class="modal-dialog modal-sm modal-dialog-centered">
         <div class="modal-content">
@@ -22,6 +22,6 @@
 </template>
 
 <script setup>
-import { useConfirm } from '../../composables/useConfirm.js'
-const { state, accept, reject } = useConfirm()
+import { useConfirm } from '../../composables/useConfirm.js';
+const { state, accept, reject } = useConfirm();
 </script>

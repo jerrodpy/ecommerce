@@ -3,7 +3,8 @@
     <h2 class="mb-4">Управління категоріями</h2>
 
     <div class="alert alert-info">
-      <i class="bi bi-info-circle"></i> Тут адміністратор може створювати нові категорії та видаляти існуючі
+      <i class="bi bi-info-circle"></i> Тут адміністратор може створювати нові категорії та видаляти
+      існуючі
     </div>
 
     <div class="card mb-4">
@@ -21,7 +22,7 @@
                 class="form-control"
                 placeholder="Наприклад: Електроніка"
                 required
-              >
+              />
             </div>
             <div class="col-md-2 d-flex align-items-end">
               <button type="submit" class="btn btn-success w-100">
@@ -58,23 +59,17 @@
                     v-model="editForm.title"
                     type="text"
                     class="form-control form-control-sm"
-                  >
+                  />
                 </td>
                 <td>
                   <span class="badge bg-secondary">{{ category.products_count ?? 0 }}</span>
                 </td>
                 <td>
                   <template v-if="editingId !== category.id">
-                    <button
-                      @click="startEdit(category)"
-                      class="btn btn-sm btn-primary"
-                    >
+                    <button @click="startEdit(category)" class="btn btn-sm btn-primary">
                       <i class="bi bi-pencil"></i> Редагувати
                     </button>
-                    <button
-                      @click="deleteCategory(category.id)"
-                      class="btn btn-sm btn-danger"
-                    >
+                    <button @click="deleteCategory(category.id)" class="btn btn-sm btn-danger">
                       <i class="bi bi-trash"></i> Видалити
                     </button>
                   </template>
@@ -97,60 +92,60 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
-import { useCategories } from '../../composables/admin/useCategories.js'
-import { useToast } from '../../composables/useToast.js'
-import { useConfirm } from '../../composables/useConfirm.js'
+import { ref, onMounted } from 'vue';
+import { useCategories } from '../../composables/admin/useCategories.js';
+import { useToast } from '../../composables/useToast.js';
+import { useConfirm } from '../../composables/useConfirm.js';
 
-const categoriesStore = useCategories()
-const categories = categoriesStore.categories
-const toast = useToast()
-const { confirm } = useConfirm()
+const categoriesStore = useCategories();
+const categories = categoriesStore.categories;
+const toast = useToast();
+const { confirm } = useConfirm();
 
-const newCategory = ref({ title: '' })
-const editingId = ref(null)
-const editForm = ref({ title: '' })
+const newCategory = ref({ title: '' });
+const editingId = ref(null);
+const editForm = ref({ title: '' });
 
 const addCategory = async () => {
   try {
-    await categoriesStore.addCategory(newCategory.value)
-    newCategory.value.title = ''
-    toast.success('Категорію успішно додано!')
+    await categoriesStore.addCategory(newCategory.value);
+    newCategory.value.title = '';
+    toast.success('Категорію успішно додано!');
   } catch (error) {
-    toast.error('Помилка при додаванні категорії: ' + error.message)
+    toast.error('Помилка при додаванні категорії: ' + error.message);
   }
-}
+};
 
 const startEdit = (category) => {
-  editingId.value = category.id
-  editForm.value.title = category.title
-}
+  editingId.value = category.id;
+  editForm.value.title = category.title;
+};
 
 const saveEdit = async () => {
   try {
-    await categoriesStore.updateCategory(editingId.value, editForm.value)
-    editingId.value = null
-    toast.success('Категорію успішно оновлено!')
+    await categoriesStore.updateCategory(editingId.value, editForm.value);
+    editingId.value = null;
+    toast.success('Категорію успішно оновлено!');
   } catch (error) {
-    toast.error('Помилка при оновленні категорії: ' + error.message)
+    toast.error('Помилка при оновленні категорії: ' + error.message);
   }
-}
+};
 
 const cancelEdit = () => {
-  editingId.value = null
-}
+  editingId.value = null;
+};
 
 const deleteCategory = async (id) => {
-  if (!await confirm('Ви впевнені, що хочете видалити цю категорію?')) return
+  if (!(await confirm('Ви впевнені, що хочете видалити цю категорію?'))) return;
   try {
-    await categoriesStore.deleteCategory(id)
-    toast.success('Категорію успішно видалено!')
+    await categoriesStore.deleteCategory(id);
+    toast.success('Категорію успішно видалено!');
   } catch (error) {
-    toast.error('Помилка при видаленні категорії: ' + error.message)
+    toast.error('Помилка при видаленні категорії: ' + error.message);
   }
-}
+};
 
 onMounted(() => {
-  categoriesStore.fetchCategories()
-})
+  categoriesStore.fetchCategories();
+});
 </script>

@@ -4,7 +4,12 @@
       <div class="row align-items-center">
         <div class="col-md-2">
           <div class="cart-item-image">
-            <img v-if="item.product && item.product.image" :src="item.product.image" :alt="item.product.title" class="w-100">
+            <img
+              v-if="item.product && item.product.image"
+              :src="item.product.image"
+              :alt="item.product.title"
+              class="w-100"
+            />
             <i v-else class="bi bi-image"></i>
           </div>
         </div>
@@ -26,17 +31,25 @@
               @input="updateQuantity($event.target.value)"
               type="number"
               class="form-control text-center"
-              style="width: 70px;"
+              style="width: 70px"
               min="1"
               :disabled="removing"
+            />
+            <button
+              @click="increaseQuantity"
+              class="btn btn-outline-secondary"
+              :disabled="removing"
             >
-            <button @click="increaseQuantity" class="btn btn-outline-secondary" :disabled="removing">
               <i class="bi bi-plus"></i>
             </button>
-            <span class="fw-bold ms-3" style="min-width: 100px;">
-              {{ (item.product?.price ? item.product.price * item.quantity : 0) }} ₴
+            <span class="fw-bold ms-3" style="min-width: 100px">
+              {{ item.product?.price ? item.product.price * item.quantity : 0 }} ₴
             </span>
-            <button @click="$emit('remove', item.product_id)" class="btn btn-danger" :disabled="removing">
+            <button
+              @click="$emit('remove', item.product_id)"
+              class="btn btn-danger"
+              :disabled="removing"
+            >
               <i class="bi bi-trash"></i>
             </button>
           </div>
@@ -58,32 +71,32 @@
 const props = defineProps({
   item: {
     type: Object,
-    required: true
+    required: true,
   },
   removing: {
     type: Boolean,
-    default: false
-  }
-})
+    default: false,
+  },
+});
 
-const emit = defineEmits(['update-quantity', 'remove'])
+const emit = defineEmits(['update-quantity', 'remove']);
 
 const updateQuantity = (value) => {
-  const quantity = parseInt(value)
+  const quantity = parseInt(value);
   if (quantity > 0) {
-    emit('update-quantity', props.item.product_id, quantity)
+    emit('update-quantity', props.item.product_id, quantity);
   }
-}
+};
 
 const increaseQuantity = () => {
-  emit('update-quantity', props.item.product_id, props.item.quantity + 1)
-}
+  emit('update-quantity', props.item.product_id, props.item.quantity + 1);
+};
 
 const decreaseQuantity = () => {
   if (props.item.quantity > 1) {
-    emit('update-quantity', props.item.product_id, props.item.quantity - 1)
+    emit('update-quantity', props.item.product_id, props.item.quantity - 1);
   }
-}
+};
 </script>
 
 <style scoped>

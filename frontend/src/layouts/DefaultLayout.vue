@@ -35,12 +35,12 @@
 </template>
 
 <script setup>
-import { useCart } from '../composables/client/useCart.js'
-import { useAuth } from '../composables/useAuth.js'
+import { useCart } from '../composables/client/useCart.js';
+import { useAuth } from '../composables/useAuth.js';
 
-const { itemsCount: cartCount } = useCart()
+const { itemsCount: cartCount } = useCart();
 
-const { user, isAuthenticated, logout } = useAuth()
+const { user, isAuthenticated, logout } = useAuth();
 </script>
 
 <style scoped>

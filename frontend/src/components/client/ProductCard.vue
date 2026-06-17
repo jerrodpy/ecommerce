@@ -1,7 +1,7 @@
 <template>
   <div class="card h-100">
     <div class="product-image">
-      <img v-if="product.image" :src="product.image" :alt="product.title" class="w-100">
+      <img v-if="product.image" :src="product.image" :alt="product.title" class="w-100" />
       <i v-else class="bi bi-image"></i>
     </div>
     <div class="card-body">
@@ -19,11 +19,11 @@
 defineProps({
   product: {
     type: Object,
-    required: true
-  }
-})
+    required: true,
+  },
+});
 
-defineEmits(['add-to-cart'])
+defineEmits(['add-to-cart']);
 </script>
 
 <style scoped>

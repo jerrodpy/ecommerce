@@ -4,11 +4,7 @@
     <h4 class="text-muted mb-3">{{ title }}</h4>
     <p class="text-muted mb-4">{{ description }}</p>
     <slot name="action">
-      <button
-        v-if="actionText"
-        @click="$emit('action')"
-        class="btn btn-primary"
-      >
+      <button v-if="actionText" @click="$emit('action')" class="btn btn-primary">
         <i :class="actionIcon" class="me-2"></i>
         {{ actionText }}
       </button>
@@ -20,27 +16,27 @@
 defineProps({
   icon: {
     type: String,
-    default: 'bi bi-inbox'
+    default: 'bi bi-inbox',
   },
   title: {
     type: String,
-    default: 'Немає даних'
+    default: 'Немає даних',
   },
   description: {
     type: String,
-    default: 'Тут поки нічого немає'
+    default: 'Тут поки нічого немає',
   },
   actionText: {
     type: String,
-    default: ''
+    default: '',
   },
   actionIcon: {
     type: String,
-    default: 'bi bi-plus-circle'
-  }
-})
+    default: 'bi bi-plus-circle',
+  },
+});
 
-defineEmits(['action'])
+defineEmits(['action']);
 </script>
 
 <style scoped>

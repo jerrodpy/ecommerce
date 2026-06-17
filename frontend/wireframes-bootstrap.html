@@ -1,1063 +1,1137 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Макеты интернет-магазина (Bootstrap)</title>
-    
+
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
-    
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css"
+    />
+
     <style>
-        .product-image {
-            background: #e9ecef;
-            height: 200px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #6c757d;
-            font-size: 3rem;
-        }
-        
-        .cart-item-image {
-            background: #e9ecef;
-            width: 100px;
-            height: 100px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #6c757d;
-            font-size: 2rem;
-        }
-        
-        .upload-area {
-            background: #e9ecef;
-            height: 200px;
-            border: 2px dashed #6c757d;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            color: #6c757d;
-            transition: all 0.3s;
-        }
-        
-        .upload-area:hover {
-            background: #dee2e6;
-            border-color: #495057;
-        }
-        
-        .page-content {
-            display: none;
-        }
-        
-        .page-content.active {
-            display: block;
-        }
-        
-        .status-badge {
-            font-size: 0.875rem;
-            padding: 0.375rem 0.75rem;
-        }
-        
-        .comment-item {
-            background: #f8f9fa;
-            border-left: 3px solid #0d6efd;
-            padding: 1rem;
-            margin-bottom: 0.5rem;
-        }
+      .product-image {
+        background: #e9ecef;
+        height: 200px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #6c757d;
+        font-size: 3rem;
+      }
+
+      .cart-item-image {
+        background: #e9ecef;
+        width: 100px;
+        height: 100px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #6c757d;
+        font-size: 2rem;
+      }
+
+      .upload-area {
+        background: #e9ecef;
+        height: 200px;
+        border: 2px dashed #6c757d;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        color: #6c757d;
+        transition: all 0.3s;
+      }
+
+      .upload-area:hover {
+        background: #dee2e6;
+        border-color: #495057;
+      }
+
+      .page-content {
+        display: none;
+      }
+
+      .page-content.active {
+        display: block;
+      }
+
+      .status-badge {
+        font-size: 0.875rem;
+        padding: 0.375rem 0.75rem;
+      }
+
+      .comment-item {
+        background: #f8f9fa;
+        border-left: 3px solid #0d6efd;
+        padding: 1rem;
+        margin-bottom: 0.5rem;
+      }
     </style>
-</head>
-<body class="bg-light">
-    
+  </head>
+  <body class="bg-light">
     <div class="container-fluid">
-        <!-- Навигация по вкладкам -->
-        <ul class="nav nav-tabs bg-dark" id="myTab" role="tablist">
-            <li class="nav-item" role="presentation">
-                <button class="nav-link active text-white" id="catalog-tab" type="button" onclick="showPage('catalog')">
-                    1. Каталог товаров
-                </button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link text-white" id="cart-tab" type="button" onclick="showPage('cart')">
-                    2. Корзина
-                </button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link text-white" id="checkout-tab" type="button" onclick="showPage('checkout')">
-                    3. Оформление заказа
-                </button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link text-white" id="auth-tab" type="button" onclick="showPage('auth')">
-                    4. Авторизация
-                </button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link text-white" id="admin-categories-tab" type="button" onclick="showPage('admin-categories')">
-                    5. Админ: Категории
-                </button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link text-white" id="admin-products-tab" type="button" onclick="showPage('admin-products')">
-                    6. Админ: Товары
-                </button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link text-white" id="admin-orders-tab" type="button" onclick="showPage('admin-orders')">
-                    7. Админ: Заказы
-                </button>
-            </li>
-        </ul>
+      <!-- Навигация по вкладкам -->
+      <ul class="nav nav-tabs bg-dark" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button
+            class="nav-link active text-white"
+            id="catalog-tab"
+            type="button"
+            onclick="showPage('catalog')"
+          >
+            1. Каталог товаров
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button
+            class="nav-link text-white"
+            id="cart-tab"
+            type="button"
+            onclick="showPage('cart')"
+          >
+            2. Корзина
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button
+            class="nav-link text-white"
+            id="checkout-tab"
+            type="button"
+            onclick="showPage('checkout')"
+          >
+            3. Оформление заказа
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button
+            class="nav-link text-white"
+            id="auth-tab"
+            type="button"
+            onclick="showPage('auth')"
+          >
+            4. Авторизация
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button
+            class="nav-link text-white"
+            id="admin-categories-tab"
+            type="button"
+            onclick="showPage('admin-categories')"
+          >
+            5. Админ: Категории
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button
+            class="nav-link text-white"
+            id="admin-products-tab"
+            type="button"
+            onclick="showPage('admin-products')"
+          >
+            6. Админ: Товары
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button
+            class="nav-link text-white"
+            id="admin-orders-tab"
+            type="button"
+            onclick="showPage('admin-orders')"
+          >
+            7. Админ: Заказы
+          </button>
+        </li>
+      </ul>
 
-        <!-- Страница 1: Каталог товаров -->
-        <div class="page-content active" id="catalog">
-            <!-- Header -->
-            <nav class="navbar navbar-dark bg-dark mb-4">
-                <div class="container-fluid">
-                    <span class="navbar-brand mb-0 h1">
-                        <i class="bi bi-shop"></i> Интернет-магазин
-                    </span>
-                    <div class="d-flex gap-3">
-                        <a href="#" class="btn btn-outline-light">
-                            <i class="bi bi-cart3"></i> Корзина (3)
-                        </a>
-                        <a href="#" class="btn btn-outline-light">
-                            <i class="bi bi-person"></i> Войти
-                        </a>
-                    </div>
-                </div>
-            </nav>
-
-            <div class="container-fluid">
-                <h2 class="mb-4">Каталог товаров</h2>
-                
-                <div class="row">
-                    <!-- Фильтры -->
-                    <div class="col-md-3">
-                        <div class="card">
-                            <div class="card-header bg-primary text-white">
-                                <h5 class="mb-0"><i class="bi bi-funnel"></i> Фильтры</h5>
-                            </div>
-                            <div class="card-body">
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold">Категория:</label>
-                                    <select class="form-select">
-                                        <option>Все категории</option>
-                                        <option>Электроника</option>
-                                        <option>Одежда</option>
-                                        <option>Книги</option>
-                                        <option>Спорт</option>
-                                    </select>
-                                </div>
-                                
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold">Цена:</label>
-                                    <input type="number" class="form-control mb-2" placeholder="От">
-                                    <input type="number" class="form-control" placeholder="До">
-                                </div>
-                                
-                                <button class="btn btn-primary w-100 mb-2">Применить</button>
-                                <button class="btn btn-outline-secondary w-100">Сбросить</button>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Товары -->
-                    <div class="col-md-9">
-                        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-                            <!-- Товар 1 -->
-                            <div class="col">
-                                <div class="card h-100">
-                                    <div class="product-image">
-                                        <i class="bi bi-image"></i>
-                                    </div>
-                                    <div class="card-body">
-                                        <h5 class="card-title">Название товара 1</h5>
-                                        <p class="card-text text-muted">Краткое описание товара для привлечения внимания покупателей...</p>
-                                        <p class="h4 text-success mb-3">1 999 ₽</p>
-                                        <button class="btn btn-success w-100">
-                                            <i class="bi bi-cart-plus"></i> В корзину
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <!-- Товар 2 -->
-                            <div class="col">
-                                <div class="card h-100">
-                                    <div class="product-image">
-                                        <i class="bi bi-image"></i>
-                                    </div>
-                                    <div class="card-body">
-                                        <h5 class="card-title">Название товара 2</h5>
-                                        <p class="card-text text-muted">Краткое описание товара для привлечения внимания покупателей...</p>
-                                        <p class="h4 text-success mb-3">2 499 ₽</p>
-                                        <button class="btn btn-success w-100">
-                                            <i class="bi bi-cart-plus"></i> В корзину
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <!-- Товар 3 -->
-                            <div class="col">
-                                <div class="card h-100">
-                                    <div class="product-image">
-                                        <i class="bi bi-image"></i>
-                                    </div>
-                                    <div class="card-body">
-                                        <h5 class="card-title">Название товара 3</h5>
-                                        <p class="card-text text-muted">Краткое описание товара для привлечения внимания покупателей...</p>
-                                        <p class="h4 text-success mb-3">3 999 ₽</p>
-                                        <button class="btn btn-success w-100">
-                                            <i class="bi bi-cart-plus"></i> В корзину
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <!-- Товар 4 -->
-                            <div class="col">
-                                <div class="card h-100">
-                                    <div class="product-image">
-                                        <i class="bi bi-image"></i>
-                                    </div>
-                                    <div class="card-body">
-                                        <h5 class="card-title">Название товара 4</h5>
-                                        <p class="card-text text-muted">Краткое описание товара для привлечения внимания покупателей...</p>
-                                        <p class="h4 text-success mb-3">5 500 ₽</p>
-                                        <button class="btn btn-success w-100">
-                                            <i class="bi bi-cart-plus"></i> В корзину
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <!-- Товар 5 -->
-                            <div class="col">
-                                <div class="card h-100">
-                                    <div class="product-image">
-                                        <i class="bi bi-image"></i>
-                                    </div>
-                                    <div class="card-body">
-                                        <h5 class="card-title">Название товара 5</h5>
-                                        <p class="card-text text-muted">Краткое описание товара для привлечения внимания покупателей...</p>
-                                        <p class="h4 text-success mb-3">7 200 ₽</p>
-                                        <button class="btn btn-success w-100">
-                                            <i class="bi bi-cart-plus"></i> В корзину
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <!-- Товар 6 -->
-                            <div class="col">
-                                <div class="card h-100">
-                                    <div class="product-image">
-                                        <i class="bi bi-image"></i>
-                                    </div>
-                                    <div class="card-body">
-                                        <h5 class="card-title">Название товара 6</h5>
-                                        <p class="card-text text-muted">Краткое описание товара для привлечения внимания покупателей...</p>
-                                        <p class="h4 text-success mb-3">4 800 ₽</p>
-                                        <button class="btn btn-success w-100">
-                                            <i class="bi bi-cart-plus"></i> В корзину
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+      <!-- Страница 1: Каталог товаров -->
+      <div class="page-content active" id="catalog">
+        <!-- Header -->
+        <nav class="navbar navbar-dark bg-dark mb-4">
+          <div class="container-fluid">
+            <span class="navbar-brand mb-0 h1"> <i class="bi bi-shop"></i> Интернет-магазин </span>
+            <div class="d-flex gap-3">
+              <a href="#" class="btn btn-outline-light">
+                <i class="bi bi-cart3"></i> Корзина (3)
+              </a>
+              <a href="#" class="btn btn-outline-light"> <i class="bi bi-person"></i> Войти </a>
             </div>
-        </div>
+          </div>
+        </nav>
 
-        <!-- Страница 2: Корзина -->
-        <div class="page-content" id="cart">
-            <nav class="navbar navbar-dark bg-dark mb-4">
-                <div class="container-fluid">
-                    <span class="navbar-brand mb-0 h1">
-                        <i class="bi bi-shop"></i> Интернет-магазин
-                    </span>
-                    <div class="d-flex gap-3">
-                        <a href="#" class="btn btn-outline-light">
-                            <i class="bi bi-cart3"></i> Корзина (3)
-                        </a>
-                        <a href="#" class="btn btn-outline-light">
-                            <i class="bi bi-person"></i> Войти
-                        </a>
-                    </div>
+        <div class="container-fluid">
+          <h2 class="mb-4">Каталог товаров</h2>
+
+          <div class="row">
+            <!-- Фильтры -->
+            <div class="col-md-3">
+              <div class="card">
+                <div class="card-header bg-primary text-white">
+                  <h5 class="mb-0"><i class="bi bi-funnel"></i> Фильтры</h5>
                 </div>
-            </nav>
+                <div class="card-body">
+                  <div class="mb-3">
+                    <label class="form-label fw-bold">Категория:</label>
+                    <select class="form-select">
+                      <option>Все категории</option>
+                      <option>Электроника</option>
+                      <option>Одежда</option>
+                      <option>Книги</option>
+                      <option>Спорт</option>
+                    </select>
+                  </div>
 
-            <div class="container">
-                <h2 class="mb-4">Корзина покупок</h2>
-                
-                <!-- Товар 1 в корзине -->
-                <div class="card mb-3">
+                  <div class="mb-3">
+                    <label class="form-label fw-bold">Цена:</label>
+                    <input type="number" class="form-control mb-2" placeholder="От" />
+                    <input type="number" class="form-control" placeholder="До" />
+                  </div>
+
+                  <button class="btn btn-primary w-100 mb-2">Применить</button>
+                  <button class="btn btn-outline-secondary w-100">Сбросить</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Товары -->
+            <div class="col-md-9">
+              <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                <!-- Товар 1 -->
+                <div class="col">
+                  <div class="card h-100">
+                    <div class="product-image">
+                      <i class="bi bi-image"></i>
+                    </div>
                     <div class="card-body">
-                        <div class="row align-items-center">
-                            <div class="col-md-2">
-                                <div class="cart-item-image">
-                                    <i class="bi bi-image"></i>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <h5>Название товара 1</h5>
-                                <p class="text-muted mb-0">Цена: 1 999 ₽</p>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="d-flex align-items-center justify-content-end gap-2">
-                                    <button class="btn btn-outline-secondary">
-                                        <i class="bi bi-dash"></i>
-                                    </button>
-                                    <input type="number" class="form-control text-center" value="2" style="width: 70px;">
-                                    <button class="btn btn-outline-secondary">
-                                        <i class="bi bi-plus"></i>
-                                    </button>
-                                    <span class="fw-bold ms-3" style="min-width: 100px;">3 998 ₽</span>
-                                    <button class="btn btn-danger">
-                                        <i class="bi bi-trash"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
+                      <h5 class="card-title">Название товара 1</h5>
+                      <p class="card-text text-muted">
+                        Краткое описание товара для привлечения внимания покупателей...
+                      </p>
+                      <p class="h4 text-success mb-3">1 999 ₽</p>
+                      <button class="btn btn-success w-100">
+                        <i class="bi bi-cart-plus"></i> В корзину
+                      </button>
                     </div>
+                  </div>
                 </div>
-                
-                <!-- Товар 2 в корзине -->
-                <div class="card mb-3">
+
+                <!-- Товар 2 -->
+                <div class="col">
+                  <div class="card h-100">
+                    <div class="product-image">
+                      <i class="bi bi-image"></i>
+                    </div>
                     <div class="card-body">
-                        <div class="row align-items-center">
-                            <div class="col-md-2">
-                                <div class="cart-item-image">
-                                    <i class="bi bi-image"></i>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <h5>Название товара 2</h5>
-                                <p class="text-muted mb-0">Цена: 2 499 ₽</p>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="d-flex align-items-center justify-content-end gap-2">
-                                    <button class="btn btn-outline-secondary">
-                                        <i class="bi bi-dash"></i>
-                                    </button>
-                                    <input type="number" class="form-control text-center" value="1" style="width: 70px;">
-                                    <button class="btn btn-outline-secondary">
-                                        <i class="bi bi-plus"></i>
-                                    </button>
-                                    <span class="fw-bold ms-3" style="min-width: 100px;">2 499 ₽</span>
-                                    <button class="btn btn-danger">
-                                        <i class="bi bi-trash"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
+                      <h5 class="card-title">Название товара 2</h5>
+                      <p class="card-text text-muted">
+                        Краткое описание товара для привлечения внимания покупателей...
+                      </p>
+                      <p class="h4 text-success mb-3">2 499 ₽</p>
+                      <button class="btn btn-success w-100">
+                        <i class="bi bi-cart-plus"></i> В корзину
+                      </button>
                     </div>
+                  </div>
                 </div>
-                
-                <!-- Итого -->
-                <div class="card bg-light mt-4">
+
+                <!-- Товар 3 -->
+                <div class="col">
+                  <div class="card h-100">
+                    <div class="product-image">
+                      <i class="bi bi-image"></i>
+                    </div>
                     <div class="card-body">
-                        <div class="row align-items-center">
-                            <div class="col-md-6">
-                                <h4 class="mb-1">Итого:</h4>
-                                <p class="text-muted mb-0">Товаров: 3 шт.</p>
-                            </div>
-                            <div class="col-md-6 text-end">
-                                <h2 class="text-success mb-3">6 497 ₽</h2>
-                                <button class="btn btn-success btn-lg">
-                                    <i class="bi bi-check-circle"></i> Оформить заказ
-                                </button>
-                            </div>
-                        </div>
+                      <h5 class="card-title">Название товара 3</h5>
+                      <p class="card-text text-muted">
+                        Краткое описание товара для привлечения внимания покупателей...
+                      </p>
+                      <p class="h4 text-success mb-3">3 999 ₽</p>
+                      <button class="btn btn-success w-100">
+                        <i class="bi bi-cart-plus"></i> В корзину
+                      </button>
                     </div>
+                  </div>
                 </div>
+
+                <!-- Товар 4 -->
+                <div class="col">
+                  <div class="card h-100">
+                    <div class="product-image">
+                      <i class="bi bi-image"></i>
+                    </div>
+                    <div class="card-body">
+                      <h5 class="card-title">Название товара 4</h5>
+                      <p class="card-text text-muted">
+                        Краткое описание товара для привлечения внимания покупателей...
+                      </p>
+                      <p class="h4 text-success mb-3">5 500 ₽</p>
+                      <button class="btn btn-success w-100">
+                        <i class="bi bi-cart-plus"></i> В корзину
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Товар 5 -->
+                <div class="col">
+                  <div class="card h-100">
+                    <div class="product-image">
+                      <i class="bi bi-image"></i>
+                    </div>
+                    <div class="card-body">
+                      <h5 class="card-title">Название товара 5</h5>
+                      <p class="card-text text-muted">
+                        Краткое описание товара для привлечения внимания покупателей...
+                      </p>
+                      <p class="h4 text-success mb-3">7 200 ₽</p>
+                      <button class="btn btn-success w-100">
+                        <i class="bi bi-cart-plus"></i> В корзину
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Товар 6 -->
+                <div class="col">
+                  <div class="card h-100">
+                    <div class="product-image">
+                      <i class="bi bi-image"></i>
+                    </div>
+                    <div class="card-body">
+                      <h5 class="card-title">Название товара 6</h5>
+                      <p class="card-text text-muted">
+                        Краткое описание товара для привлечения внимания покупателей...
+                      </p>
+                      <p class="h4 text-success mb-3">4 800 ₽</p>
+                      <button class="btn btn-success w-100">
+                        <i class="bi bi-cart-plus"></i> В корзину
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
+          </div>
         </div>
+      </div>
 
-        <!-- Страница 3: Оформление заказа -->
-        <div class="page-content" id="checkout">
-            <nav class="navbar navbar-dark bg-dark mb-4">
-                <div class="container-fluid">
-                    <span class="navbar-brand mb-0 h1">
-                        <i class="bi bi-shop"></i> Интернет-магазин
-                    </span>
-                    <div class="d-flex gap-3">
-                        <a href="#" class="btn btn-outline-light">
-                            <i class="bi bi-cart3"></i> Корзина (3)
-                        </a>
-                        <a href="#" class="btn btn-outline-light">
-                            <i class="bi bi-person"></i> Войти
-                        </a>
-                    </div>
-                </div>
-            </nav>
-
-            <div class="container">
-                <h2 class="mb-4">Оформление заказа</h2>
-                
-                <div class="row">
-                    <!-- Форма данных -->
-                    <div class="col-md-7">
-                        <div class="card">
-                            <div class="card-header bg-primary text-white">
-                                <h5 class="mb-0"><i class="bi bi-person-fill"></i> Данные покупателя</h5>
-                            </div>
-                            <div class="card-body">
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold">ФИО <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" placeholder="Иванов Иван Иванович">
-                                </div>
-                                
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold">Телефон <span class="text-danger">*</span></label>
-                                    <input type="tel" class="form-control" placeholder="+7 (999) 123-45-67">
-                                </div>
-                                
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold">Email</label>
-                                    <input type="email" class="form-control" placeholder="example@mail.com">
-                                </div>
-                                
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold">Адрес доставки <span class="text-danger">*</span></label>
-                                    <textarea class="form-control" rows="3" placeholder="Город, улица, дом, квартира"></textarea>
-                                </div>
-                                
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold">Комментарий к заказу</label>
-                                    <textarea class="form-control" rows="3" placeholder="Дополнительная информация..."></textarea>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Сводка заказа -->
-                    <div class="col-md-5">
-                        <div class="card">
-                            <div class="card-header bg-secondary text-white">
-                                <h5 class="mb-0"><i class="bi bi-cart-check"></i> Ваш заказ</h5>
-                            </div>
-                            <div class="card-body">
-                                <div class="mb-3">
-                                    <div class="d-flex justify-content-between mb-2">
-                                        <span>Товар 1 × 2</span>
-                                        <span>3 998 ₽</span>
-                                    </div>
-                                    <div class="d-flex justify-content-between mb-2">
-                                        <span>Товар 2 × 1</span>
-                                        <span>2 499 ₽</span>
-                                    </div>
-                                </div>
-                                
-                                <hr>
-                                
-                                <div class="d-flex justify-content-between mb-4">
-                                    <h4>Итого:</h4>
-                                    <h4 class="text-success">6 497 ₽</h4>
-                                </div>
-                                
-                                <button class="btn btn-success btn-lg w-100">
-                                    <i class="bi bi-check-circle"></i> Подтвердить заказ
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+      <!-- Страница 2: Корзина -->
+      <div class="page-content" id="cart">
+        <nav class="navbar navbar-dark bg-dark mb-4">
+          <div class="container-fluid">
+            <span class="navbar-brand mb-0 h1"> <i class="bi bi-shop"></i> Интернет-магазин </span>
+            <div class="d-flex gap-3">
+              <a href="#" class="btn btn-outline-light">
+                <i class="bi bi-cart3"></i> Корзина (3)
+              </a>
+              <a href="#" class="btn btn-outline-light"> <i class="bi bi-person"></i> Войти </a>
             </div>
-        </div>
+          </div>
+        </nav>
 
-        <!-- Страница 4: Авторизация -->
-        <div class="page-content" id="auth">
-            <nav class="navbar navbar-dark bg-dark mb-4">
-                <div class="container-fluid">
-                    <span class="navbar-brand mb-0 h1">
-                        <i class="bi bi-shop"></i> Интернет-магазин
-                    </span>
-                    <div class="d-flex gap-3">
-                        <a href="#" class="btn btn-outline-light">
-                            <i class="bi bi-cart3"></i> Корзина (0)
-                        </a>
-                        <a href="#" class="btn btn-outline-light">
-                            <i class="bi bi-person"></i> Войти
-                        </a>
-                    </div>
+        <div class="container">
+          <h2 class="mb-4">Корзина покупок</h2>
+
+          <!-- Товар 1 в корзине -->
+          <div class="card mb-3">
+            <div class="card-body">
+              <div class="row align-items-center">
+                <div class="col-md-2">
+                  <div class="cart-item-image">
+                    <i class="bi bi-image"></i>
+                  </div>
                 </div>
-            </nav>
-
-            <div class="container">
-                <h2 class="mb-4">Вход / Регистрация</h2>
-                
-                <div class="row">
-                    <!-- Форма входа -->
-                    <div class="col-md-6">
-                        <div class="card">
-                            <div class="card-header bg-primary text-white">
-                                <h5 class="mb-0"><i class="bi bi-box-arrow-in-right"></i> Вход</h5>
-                            </div>
-                            <div class="card-body">
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold">Email</label>
-                                    <input type="email" class="form-control" placeholder="example@mail.com">
-                                </div>
-                                
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold">Пароль</label>
-                                    <input type="password" class="form-control" placeholder="********">
-                                </div>
-                                
-                                <button class="btn btn-primary w-100 mb-2">Войти</button>
-                                <a href="#" class="d-block text-center">Забыли пароль?</a>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Форма регистрации -->
-                    <div class="col-md-6">
-                        <div class="card">
-                            <div class="card-header bg-success text-white">
-                                <h5 class="mb-0"><i class="bi bi-person-plus"></i> Регистрация</h5>
-                            </div>
-                            <div class="card-body">
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold">ФИО</label>
-                                    <input type="text" class="form-control" placeholder="Иванов Иван Иванович">
-                                </div>
-                                
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold">Email</label>
-                                    <input type="email" class="form-control" placeholder="example@mail.com">
-                                </div>
-                                
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold">Телефон</label>
-                                    <input type="tel" class="form-control" placeholder="+7 (999) 123-45-67">
-                                </div>
-                                
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold">Пароль</label>
-                                    <input type="password" class="form-control" placeholder="********">
-                                </div>
-                                
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold">Подтверждение пароля</label>
-                                    <input type="password" class="form-control" placeholder="********">
-                                </div>
-                                
-                                <button class="btn btn-success w-100">Зарегистрироваться</button>
-                            </div>
-                        </div>
-                    </div>
+                <div class="col-md-4">
+                  <h5>Название товара 1</h5>
+                  <p class="text-muted mb-0">Цена: 1 999 ₽</p>
                 </div>
-            </div>
-        </div>
-
-        <!-- Страница 5: Админ - Категории -->
-        <div class="page-content" id="admin-categories">
-            <nav class="navbar navbar-dark bg-warning mb-4">
-                <div class="container-fluid">
-                    <span class="navbar-brand mb-0 h1 text-dark">
-                        <i class="bi bi-gear-fill"></i> Панель администратора
-                    </span>
-                    <button class="btn btn-outline-dark">
-                        <i class="bi bi-box-arrow-right"></i> Выход
+                <div class="col-md-6">
+                  <div class="d-flex align-items-center justify-content-end gap-2">
+                    <button class="btn btn-outline-secondary">
+                      <i class="bi bi-dash"></i>
                     </button>
-                </div>
-            </nav>
-
-            <div class="container-fluid">
-                <h2 class="mb-4">Управление категориями</h2>
-                
-                <div class="alert alert-info">
-                    <i class="bi bi-info-circle"></i> Здесь администратор может создавать новые категории и удалять существующие
-                </div>
-                
-                <!-- Форма добавления -->
-                <div class="card mb-4">
-                    <div class="card-header bg-success text-white">
-                        <h5 class="mb-0"><i class="bi bi-plus-circle"></i> Добавить новую категорию</h5>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-10">
-                                <label class="form-label fw-bold">Название категории</label>
-                                <input type="text" class="form-control" placeholder="Например: Электроника">
-                            </div>
-                            <div class="col-md-2 d-flex align-items-end">
-                                <button class="btn btn-success w-100">
-                                    <i class="bi bi-plus-lg"></i> Создать
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Список категорий -->
-                <div class="card">
-                    <div class="card-header bg-primary text-white">
-                        <h5 class="mb-0"><i class="bi bi-list-ul"></i> Существующие категории</h5>
-                    </div>
-                    <div class="card-body p-0">
-                        <div class="table-responsive">
-                            <table class="table table-striped table-hover mb-0">
-                                <thead class="table-dark">
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Название</th>
-                                        <th>Количество товаров</th>
-                                        <th>Действия</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>Электроника</td>
-                                        <td><span class="badge bg-secondary">15</span></td>
-                                        <td>
-                                            <button class="btn btn-sm btn-primary">
-                                                <i class="bi bi-pencil"></i> Редактировать
-                                            </button>
-                                            <button class="btn btn-sm btn-danger">
-                                                <i class="bi bi-trash"></i> Удалить
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td>Одежда</td>
-                                        <td><span class="badge bg-secondary">28</span></td>
-                                        <td>
-                                            <button class="btn btn-sm btn-primary">
-                                                <i class="bi bi-pencil"></i> Редактировать
-                                            </button>
-                                            <button class="btn btn-sm btn-danger">
-                                                <i class="bi bi-trash"></i> Удалить
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>3</td>
-                                        <td>Книги</td>
-                                        <td><span class="badge bg-secondary">42</span></td>
-                                        <td>
-                                            <button class="btn btn-sm btn-primary">
-                                                <i class="bi bi-pencil"></i> Редактировать
-                                            </button>
-                                            <button class="btn btn-sm btn-danger">
-                                                <i class="bi bi-trash"></i> Удалить
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>4</td>
-                                        <td>Спорт</td>
-                                        <td><span class="badge bg-secondary">8</span></td>
-                                        <td>
-                                            <button class="btn btn-sm btn-primary">
-                                                <i class="bi bi-pencil"></i> Редактировать
-                                            </button>
-                                            <button class="btn btn-sm btn-danger">
-                                                <i class="bi bi-trash"></i> Удалить
-                                            </button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Страница 6: Админ - Товары -->
-        <div class="page-content" id="admin-products">
-            <nav class="navbar navbar-dark bg-warning mb-4">
-                <div class="container-fluid">
-                    <span class="navbar-brand mb-0 h1 text-dark">
-                        <i class="bi bi-gear-fill"></i> Панель администратора
-                    </span>
-                    <button class="btn btn-outline-dark">
-                        <i class="bi bi-box-arrow-right"></i> Выход
+                    <input
+                      type="number"
+                      class="form-control text-center"
+                      value="2"
+                      style="width: 70px"
+                    />
+                    <button class="btn btn-outline-secondary">
+                      <i class="bi bi-plus"></i>
                     </button>
-                </div>
-            </nav>
-
-            <div class="container-fluid">
-                <h2 class="mb-4">Управление товарами</h2>
-                
-                <div class="alert alert-info">
-                    <i class="bi bi-info-circle"></i> Администратор может добавлять, редактировать и удалять товары с загрузкой изображений и выбором категорий
-                </div>
-                
-                <button class="btn btn-success btn-lg mb-4">
-                    <i class="bi bi-plus-circle"></i> Добавить новый товар
-                </button>
-                
-                <!-- Форма создания/редактирования -->
-                <div class="card mb-4">
-                    <div class="card-header bg-success text-white">
-                        <h5 class="mb-0"><i class="bi bi-box"></i> Форма создания/редактирования товара</h5>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-8">
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold">Название товара (title) <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" placeholder="Введите название">
-                                </div>
-                                
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold">Описание (description) <span class="text-danger">*</span></label>
-                                    <textarea class="form-control" rows="5" placeholder="Подробное описание товара..."></textarea>
-                                </div>
-                                
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold">Цена (price) <span class="text-danger">*</span></label>
-                                    <div class="input-group">
-                                        <input type="number" class="form-control" placeholder="0.00" step="0.01">
-                                        <span class="input-group-text">₽</span>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="col-md-4">
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold">Изображение (image)</label>
-                                    <div class="upload-area rounded">
-                                        <div class="text-center">
-                                            <i class="bi bi-cloud-upload" style="font-size: 3rem;"></i>
-                                            <p class="mb-0">Кликните для загрузки</p>
-                                            <small>или перетащите файл</small>
-                                        </div>
-                                    </div>
-                                    <input type="file" class="d-none">
-                                </div>
-                                
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold">Категории (categories)</label>
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="form-check mb-2">
-                                                <input class="form-check-input" type="checkbox" id="cat1">
-                                                <label class="form-check-label" for="cat1">
-                                                    Электроника
-                                                </label>
-                                            </div>
-                                            <div class="form-check mb-2">
-                                                <input class="form-check-input" type="checkbox" id="cat2" checked>
-                                                <label class="form-check-label" for="cat2">
-                                                    Одежда
-                                                </label>
-                                            </div>
-                                            <div class="form-check mb-2">
-                                                <input class="form-check-input" type="checkbox" id="cat3" checked>
-                                                <label class="form-check-label" for="cat3">
-                                                    Книги
-                                                </label>
-                                            </div>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="cat4">
-                                                <label class="form-check-label" for="cat4">
-                                                    Спорт
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="d-flex gap-2">
-                            <button class="btn btn-success">
-                                <i class="bi bi-save"></i> Сохранить
-                            </button>
-                            <button class="btn btn-secondary">
-                                <i class="bi bi-x-circle"></i> Отмена
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Список товаров -->
-                <div class="card">
-                    <div class="card-header bg-primary text-white">
-                        <h5 class="mb-0"><i class="bi bi-list"></i> Список товаров</h5>
-                    </div>
-                    <div class="card-body p-0">
-                        <div class="table-responsive">
-                            <table class="table table-hover mb-0">
-                                <thead class="table-dark">
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Изображение</th>
-                                        <th>Название</th>
-                                        <th>Цена</th>
-                                        <th>Категории</th>
-                                        <th>Действия</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>
-                                            <div class="bg-secondary text-white rounded d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
-                                                <i class="bi bi-image"></i>
-                                            </div>
-                                        </td>
-                                        <td>Товар 1</td>
-                                        <td>1 999 ₽</td>
-                                        <td><span class="badge bg-info">Электроника</span></td>
-                                        <td>
-                                            <button class="btn btn-sm btn-primary">
-                                                <i class="bi bi-pencil"></i>
-                                            </button>
-                                            <button class="btn btn-sm btn-danger">
-                                                <i class="bi bi-trash"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td>
-                                            <div class="bg-secondary text-white rounded d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
-                                                <i class="bi bi-image"></i>
-                                            </div>
-                                        </td>
-                                        <td>Товар 2</td>
-                                        <td>2 499 ₽</td>
-                                        <td>
-                                            <span class="badge bg-info">Одежда</span>
-                                            <span class="badge bg-info">Спорт</span>
-                                        </td>
-                                        <td>
-                                            <button class="btn btn-sm btn-primary">
-                                                <i class="bi bi-pencil"></i>
-                                            </button>
-                                            <button class="btn btn-sm btn-danger">
-                                                <i class="bi bi-trash"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>3</td>
-                                        <td>
-                                            <div class="bg-secondary text-white rounded d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
-                                                <i class="bi bi-image"></i>
-                                            </div>
-                                        </td>
-                                        <td>Товар 3</td>
-                                        <td>3 999 ₽</td>
-                                        <td><span class="badge bg-info">Книги</span></td>
-                                        <td>
-                                            <button class="btn btn-sm btn-primary">
-                                                <i class="bi bi-pencil"></i>
-                                            </button>
-                                            <button class="btn btn-sm btn-danger">
-                                                <i class="bi bi-trash"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Страница 7: Админ - Заказы -->
-        <div class="page-content" id="admin-orders">
-            <nav class="navbar navbar-dark bg-warning mb-4">
-                <div class="container-fluid">
-                    <span class="navbar-brand mb-0 h1 text-dark">
-                        <i class="bi bi-gear-fill"></i> Панель администратора
-                    </span>
-                    <button class="btn btn-outline-dark">
-                        <i class="bi bi-box-arrow-right"></i> Выход
+                    <span class="fw-bold ms-3" style="min-width: 100px">3 998 ₽</span>
+                    <button class="btn btn-danger">
+                      <i class="bi bi-trash"></i>
                     </button>
+                  </div>
                 </div>
-            </nav>
+              </div>
+            </div>
+          </div>
 
-            <div class="container-fluid">
-                <h2 class="mb-4">Управление заказами</h2>
-                
-                <div class="alert alert-info">
-                    <i class="bi bi-info-circle"></i> Администратор может просматривать заказы, изменять их статус и добавлять комментарии
+          <!-- Товар 2 в корзине -->
+          <div class="card mb-3">
+            <div class="card-body">
+              <div class="row align-items-center">
+                <div class="col-md-2">
+                  <div class="cart-item-image">
+                    <i class="bi bi-image"></i>
+                  </div>
                 </div>
-                
-                <!-- Список заказов -->
-                <div class="card mb-4">
-                    <div class="card-header bg-primary text-white">
-                        <h5 class="mb-0"><i class="bi bi-clipboard-check"></i> Список заказов</h5>
-                    </div>
-                    <div class="card-body p-0">
-                        <div class="table-responsive">
-                            <table class="table table-hover mb-0">
-                                <thead class="table-dark">
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>ФИО клиента</th>
-                                        <th>Телефон</th>
-                                        <th>Статус</th>
-                                        <th>Сумма</th>
-                                        <th>Действия</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>Иванов Иван Иванович</td>
-                                        <td>+7 (999) 123-45-67</td>
-                                        <td><span class="badge bg-warning text-dark status-badge">В обработке</span></td>
-                                        <td>6 497 ₽</td>
-                                        <td>
-                                            <button class="btn btn-sm btn-info text-white">
-                                                <i class="bi bi-eye"></i> Детали
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td>Петрова Мария Сергеевна</td>
-                                        <td>+7 (999) 765-43-21</td>
-                                        <td><span class="badge bg-primary status-badge">Доставляется</span></td>
-                                        <td>3 250 ₽</td>
-                                        <td>
-                                            <button class="btn btn-sm btn-info text-white">
-                                                <i class="bi bi-eye"></i> Детали
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>3</td>
-                                        <td>Сидоров Петр Петрович</td>
-                                        <td>+7 (999) 111-22-33</td>
-                                        <td><span class="badge bg-success status-badge">Выполнен</span></td>
-                                        <td>12 800 ₽</td>
-                                        <td>
-                                            <button class="btn btn-sm btn-info text-white">
-                                                <i class="bi bi-eye"></i> Детали
-                                            </button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+                <div class="col-md-4">
+                  <h5>Название товара 2</h5>
+                  <p class="text-muted mb-0">Цена: 2 499 ₽</p>
                 </div>
-                
-                <!-- Детальный вид заказа -->
-                <div class="card">
-                    <div class="card-header bg-success text-white">
-                        <h5 class="mb-0"><i class="bi bi-file-earmark-text"></i> Детали заказа #1</h5>
+                <div class="col-md-6">
+                  <div class="d-flex align-items-center justify-content-end gap-2">
+                    <button class="btn btn-outline-secondary">
+                      <i class="bi bi-dash"></i>
+                    </button>
+                    <input
+                      type="number"
+                      class="form-control text-center"
+                      value="1"
+                      style="width: 70px"
+                    />
+                    <button class="btn btn-outline-secondary">
+                      <i class="bi bi-plus"></i>
+                    </button>
+                    <span class="fw-bold ms-3" style="min-width: 100px">2 499 ₽</span>
+                    <button class="btn btn-danger">
+                      <i class="bi bi-trash"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Итого -->
+          <div class="card bg-light mt-4">
+            <div class="card-body">
+              <div class="row align-items-center">
+                <div class="col-md-6">
+                  <h4 class="mb-1">Итого:</h4>
+                  <p class="text-muted mb-0">Товаров: 3 шт.</p>
+                </div>
+                <div class="col-md-6 text-end">
+                  <h2 class="text-success mb-3">6 497 ₽</h2>
+                  <button class="btn btn-success btn-lg">
+                    <i class="bi bi-check-circle"></i> Оформить заказ
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Страница 3: Оформление заказа -->
+      <div class="page-content" id="checkout">
+        <nav class="navbar navbar-dark bg-dark mb-4">
+          <div class="container-fluid">
+            <span class="navbar-brand mb-0 h1"> <i class="bi bi-shop"></i> Интернет-магазин </span>
+            <div class="d-flex gap-3">
+              <a href="#" class="btn btn-outline-light">
+                <i class="bi bi-cart3"></i> Корзина (3)
+              </a>
+              <a href="#" class="btn btn-outline-light"> <i class="bi bi-person"></i> Войти </a>
+            </div>
+          </div>
+        </nav>
+
+        <div class="container">
+          <h2 class="mb-4">Оформление заказа</h2>
+
+          <div class="row">
+            <!-- Форма данных -->
+            <div class="col-md-7">
+              <div class="card">
+                <div class="card-header bg-primary text-white">
+                  <h5 class="mb-0"><i class="bi bi-person-fill"></i> Данные покупателя</h5>
+                </div>
+                <div class="card-body">
+                  <div class="mb-3">
+                    <label class="form-label fw-bold">ФИО <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" placeholder="Иванов Иван Иванович" />
+                  </div>
+
+                  <div class="mb-3">
+                    <label class="form-label fw-bold"
+                      >Телефон <span class="text-danger">*</span></label
+                    >
+                    <input type="tel" class="form-control" placeholder="+7 (999) 123-45-67" />
+                  </div>
+
+                  <div class="mb-3">
+                    <label class="form-label fw-bold">Email</label>
+                    <input type="email" class="form-control" placeholder="example@mail.com" />
+                  </div>
+
+                  <div class="mb-3">
+                    <label class="form-label fw-bold"
+                      >Адрес доставки <span class="text-danger">*</span></label
+                    >
+                    <textarea
+                      class="form-control"
+                      rows="3"
+                      placeholder="Город, улица, дом, квартира"
+                    ></textarea>
+                  </div>
+
+                  <div class="mb-3">
+                    <label class="form-label fw-bold">Комментарий к заказу</label>
+                    <textarea
+                      class="form-control"
+                      rows="3"
+                      placeholder="Дополнительная информация..."
+                    ></textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Сводка заказа -->
+            <div class="col-md-5">
+              <div class="card">
+                <div class="card-header bg-secondary text-white">
+                  <h5 class="mb-0"><i class="bi bi-cart-check"></i> Ваш заказ</h5>
+                </div>
+                <div class="card-body">
+                  <div class="mb-3">
+                    <div class="d-flex justify-content-between mb-2">
+                      <span>Товар 1 × 2</span>
+                      <span>3 998 ₽</span>
                     </div>
-                    <div class="card-body">
-                        <div class="row mb-4">
-                            <div class="col-md-6">
-                                <h6 class="text-muted">Информация о клиенте</h6>
-                                <p class="mb-1"><strong>ФИО (customer_fio):</strong> Иванов Иван Иванович</p>
-                                <p class="mb-1"><strong>Телефон (customer_phone):</strong> +7 (999) 123-45-67</p>
-                                <p class="mb-1"><strong>Email:</strong> ivanov@mail.com</p>
-                                <p class="mb-1"><strong>Адрес:</strong> г. Москва, ул. Ленина, д. 10, кв. 5</p>
-                            </div>
-                            <div class="col-md-6">
-                                <h6 class="text-muted">Управление заказом</h6>
-                                <label class="form-label fw-bold">Статус заказа (status)</label>
-                                <select class="form-select mb-2">
-                                    <option>Новый</option>
-                                    <option selected>В обработке</option>
-                                    <option>Доставляется</option>
-                                    <option>Выполнен</option>
-                                    <option>Отменен</option>
-                                </select>
-                                <button class="btn btn-primary w-100">
-                                    <i class="bi bi-arrow-repeat"></i> Обновить статус
-                                </button>
-                            </div>
-                        </div>
-                        
-                        <h6 class="text-muted mb-3">Товары в заказе (products)</h6>
-                        <div class="table-responsive mb-4">
-                            <table class="table table-bordered">
-                                <thead class="table-light">
-                                    <tr>
-                                        <th>Название</th>
-                                        <th>Цена</th>
-                                        <th>Количество</th>
-                                        <th>Сумма</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>Товар 1</td>
-                                        <td>1 999 ₽</td>
-                                        <td>2</td>
-                                        <td>3 998 ₽</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Товар 2</td>
-                                        <td>2 499 ₽</td>
-                                        <td>1</td>
-                                        <td>2 499 ₽</td>
-                                    </tr>
-                                </tbody>
-                                <tfoot class="table-secondary">
-                                    <tr>
-                                        <th colspan="3" class="text-end">Итого:</th>
-                                        <th>6 497 ₽</th>
-                                    </tr>
-                                </tfoot>
-                            </table>
-                        </div>
-                        
-                        <h6 class="text-muted mb-3">Комментарии (comments)</h6>
-                        <div class="mb-3">
-                            <div class="comment-item">
-                                <strong>Администратор (26.10.2025 10:30):</strong><br>
-                                Заказ принят в обработку
-                            </div>
-                            <div class="comment-item">
-                                <strong>Администратор (26.10.2025 14:15):</strong><br>
-                                Товар упакован, ожидает отправки
-                            </div>
-                        </div>
-                        
-                        <label class="form-label fw-bold">Добавить комментарий:</label>
-                        <textarea class="form-control mb-2" rows="3" placeholder="Введите комментарий к заказу..."></textarea>
-                        <button class="btn btn-success">
-                            <i class="bi bi-chat-dots"></i> Добавить комментарий
+                    <div class="d-flex justify-content-between mb-2">
+                      <span>Товар 2 × 1</span>
+                      <span>2 499 ₽</span>
+                    </div>
+                  </div>
+
+                  <hr />
+
+                  <div class="d-flex justify-content-between mb-4">
+                    <h4>Итого:</h4>
+                    <h4 class="text-success">6 497 ₽</h4>
+                  </div>
+
+                  <button class="btn btn-success btn-lg w-100">
+                    <i class="bi bi-check-circle"></i> Подтвердить заказ
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Страница 4: Авторизация -->
+      <div class="page-content" id="auth">
+        <nav class="navbar navbar-dark bg-dark mb-4">
+          <div class="container-fluid">
+            <span class="navbar-brand mb-0 h1"> <i class="bi bi-shop"></i> Интернет-магазин </span>
+            <div class="d-flex gap-3">
+              <a href="#" class="btn btn-outline-light">
+                <i class="bi bi-cart3"></i> Корзина (0)
+              </a>
+              <a href="#" class="btn btn-outline-light"> <i class="bi bi-person"></i> Войти </a>
+            </div>
+          </div>
+        </nav>
+
+        <div class="container">
+          <h2 class="mb-4">Вход / Регистрация</h2>
+
+          <div class="row">
+            <!-- Форма входа -->
+            <div class="col-md-6">
+              <div class="card">
+                <div class="card-header bg-primary text-white">
+                  <h5 class="mb-0"><i class="bi bi-box-arrow-in-right"></i> Вход</h5>
+                </div>
+                <div class="card-body">
+                  <div class="mb-3">
+                    <label class="form-label fw-bold">Email</label>
+                    <input type="email" class="form-control" placeholder="example@mail.com" />
+                  </div>
+
+                  <div class="mb-3">
+                    <label class="form-label fw-bold">Пароль</label>
+                    <input type="password" class="form-control" placeholder="********" />
+                  </div>
+
+                  <button class="btn btn-primary w-100 mb-2">Войти</button>
+                  <a href="#" class="d-block text-center">Забыли пароль?</a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Форма регистрации -->
+            <div class="col-md-6">
+              <div class="card">
+                <div class="card-header bg-success text-white">
+                  <h5 class="mb-0"><i class="bi bi-person-plus"></i> Регистрация</h5>
+                </div>
+                <div class="card-body">
+                  <div class="mb-3">
+                    <label class="form-label fw-bold">ФИО</label>
+                    <input type="text" class="form-control" placeholder="Иванов Иван Иванович" />
+                  </div>
+
+                  <div class="mb-3">
+                    <label class="form-label fw-bold">Email</label>
+                    <input type="email" class="form-control" placeholder="example@mail.com" />
+                  </div>
+
+                  <div class="mb-3">
+                    <label class="form-label fw-bold">Телефон</label>
+                    <input type="tel" class="form-control" placeholder="+7 (999) 123-45-67" />
+                  </div>
+
+                  <div class="mb-3">
+                    <label class="form-label fw-bold">Пароль</label>
+                    <input type="password" class="form-control" placeholder="********" />
+                  </div>
+
+                  <div class="mb-3">
+                    <label class="form-label fw-bold">Подтверждение пароля</label>
+                    <input type="password" class="form-control" placeholder="********" />
+                  </div>
+
+                  <button class="btn btn-success w-100">Зарегистрироваться</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Страница 5: Админ - Категории -->
+      <div class="page-content" id="admin-categories">
+        <nav class="navbar navbar-dark bg-warning mb-4">
+          <div class="container-fluid">
+            <span class="navbar-brand mb-0 h1 text-dark">
+              <i class="bi bi-gear-fill"></i> Панель администратора
+            </span>
+            <button class="btn btn-outline-dark">
+              <i class="bi bi-box-arrow-right"></i> Выход
+            </button>
+          </div>
+        </nav>
+
+        <div class="container-fluid">
+          <h2 class="mb-4">Управление категориями</h2>
+
+          <div class="alert alert-info">
+            <i class="bi bi-info-circle"></i> Здесь администратор может создавать новые категории и
+            удалять существующие
+          </div>
+
+          <!-- Форма добавления -->
+          <div class="card mb-4">
+            <div class="card-header bg-success text-white">
+              <h5 class="mb-0"><i class="bi bi-plus-circle"></i> Добавить новую категорию</h5>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-10">
+                  <label class="form-label fw-bold">Название категории</label>
+                  <input type="text" class="form-control" placeholder="Например: Электроника" />
+                </div>
+                <div class="col-md-2 d-flex align-items-end">
+                  <button class="btn btn-success w-100">
+                    <i class="bi bi-plus-lg"></i> Создать
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Список категорий -->
+          <div class="card">
+            <div class="card-header bg-primary text-white">
+              <h5 class="mb-0"><i class="bi bi-list-ul"></i> Существующие категории</h5>
+            </div>
+            <div class="card-body p-0">
+              <div class="table-responsive">
+                <table class="table table-striped table-hover mb-0">
+                  <thead class="table-dark">
+                    <tr>
+                      <th>ID</th>
+                      <th>Название</th>
+                      <th>Количество товаров</th>
+                      <th>Действия</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>1</td>
+                      <td>Электроника</td>
+                      <td><span class="badge bg-secondary">15</span></td>
+                      <td>
+                        <button class="btn btn-sm btn-primary">
+                          <i class="bi bi-pencil"></i> Редактировать
                         </button>
-                    </div>
-                </div>
+                        <button class="btn btn-sm btn-danger">
+                          <i class="bi bi-trash"></i> Удалить
+                        </button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>2</td>
+                      <td>Одежда</td>
+                      <td><span class="badge bg-secondary">28</span></td>
+                      <td>
+                        <button class="btn btn-sm btn-primary">
+                          <i class="bi bi-pencil"></i> Редактировать
+                        </button>
+                        <button class="btn btn-sm btn-danger">
+                          <i class="bi bi-trash"></i> Удалить
+                        </button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>3</td>
+                      <td>Книги</td>
+                      <td><span class="badge bg-secondary">42</span></td>
+                      <td>
+                        <button class="btn btn-sm btn-primary">
+                          <i class="bi bi-pencil"></i> Редактировать
+                        </button>
+                        <button class="btn btn-sm btn-danger">
+                          <i class="bi bi-trash"></i> Удалить
+                        </button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>4</td>
+                      <td>Спорт</td>
+                      <td><span class="badge bg-secondary">8</span></td>
+                      <td>
+                        <button class="btn btn-sm btn-primary">
+                          <i class="bi bi-pencil"></i> Редактировать
+                        </button>
+                        <button class="btn btn-sm btn-danger">
+                          <i class="bi bi-trash"></i> Удалить
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
+          </div>
         </div>
+      </div>
+
+      <!-- Страница 6: Админ - Товары -->
+      <div class="page-content" id="admin-products">
+        <nav class="navbar navbar-dark bg-warning mb-4">
+          <div class="container-fluid">
+            <span class="navbar-brand mb-0 h1 text-dark">
+              <i class="bi bi-gear-fill"></i> Панель администратора
+            </span>
+            <button class="btn btn-outline-dark">
+              <i class="bi bi-box-arrow-right"></i> Выход
+            </button>
+          </div>
+        </nav>
+
+        <div class="container-fluid">
+          <h2 class="mb-4">Управление товарами</h2>
+
+          <div class="alert alert-info">
+            <i class="bi bi-info-circle"></i> Администратор может добавлять, редактировать и удалять
+            товары с загрузкой изображений и выбором категорий
+          </div>
+
+          <button class="btn btn-success btn-lg mb-4">
+            <i class="bi bi-plus-circle"></i> Добавить новый товар
+          </button>
+
+          <!-- Форма создания/редактирования -->
+          <div class="card mb-4">
+            <div class="card-header bg-success text-white">
+              <h5 class="mb-0"><i class="bi bi-box"></i> Форма создания/редактирования товара</h5>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-8">
+                  <div class="mb-3">
+                    <label class="form-label fw-bold"
+                      >Название товара (title) <span class="text-danger">*</span></label
+                    >
+                    <input type="text" class="form-control" placeholder="Введите название" />
+                  </div>
+
+                  <div class="mb-3">
+                    <label class="form-label fw-bold"
+                      >Описание (description) <span class="text-danger">*</span></label
+                    >
+                    <textarea
+                      class="form-control"
+                      rows="5"
+                      placeholder="Подробное описание товара..."
+                    ></textarea>
+                  </div>
+
+                  <div class="mb-3">
+                    <label class="form-label fw-bold"
+                      >Цена (price) <span class="text-danger">*</span></label
+                    >
+                    <div class="input-group">
+                      <input type="number" class="form-control" placeholder="0.00" step="0.01" />
+                      <span class="input-group-text">₽</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-4">
+                  <div class="mb-3">
+                    <label class="form-label fw-bold">Изображение (image)</label>
+                    <div class="upload-area rounded">
+                      <div class="text-center">
+                        <i class="bi bi-cloud-upload" style="font-size: 3rem"></i>
+                        <p class="mb-0">Кликните для загрузки</p>
+                        <small>или перетащите файл</small>
+                      </div>
+                    </div>
+                    <input type="file" class="d-none" />
+                  </div>
+
+                  <div class="mb-3">
+                    <label class="form-label fw-bold">Категории (categories)</label>
+                    <div class="card">
+                      <div class="card-body">
+                        <div class="form-check mb-2">
+                          <input class="form-check-input" type="checkbox" id="cat1" />
+                          <label class="form-check-label" for="cat1"> Электроника </label>
+                        </div>
+                        <div class="form-check mb-2">
+                          <input class="form-check-input" type="checkbox" id="cat2" checked />
+                          <label class="form-check-label" for="cat2"> Одежда </label>
+                        </div>
+                        <div class="form-check mb-2">
+                          <input class="form-check-input" type="checkbox" id="cat3" checked />
+                          <label class="form-check-label" for="cat3"> Книги </label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="cat4" />
+                          <label class="form-check-label" for="cat4"> Спорт </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="d-flex gap-2">
+                <button class="btn btn-success"><i class="bi bi-save"></i> Сохранить</button>
+                <button class="btn btn-secondary"><i class="bi bi-x-circle"></i> Отмена</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Список товаров -->
+          <div class="card">
+            <div class="card-header bg-primary text-white">
+              <h5 class="mb-0"><i class="bi bi-list"></i> Список товаров</h5>
+            </div>
+            <div class="card-body p-0">
+              <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                  <thead class="table-dark">
+                    <tr>
+                      <th>ID</th>
+                      <th>Изображение</th>
+                      <th>Название</th>
+                      <th>Цена</th>
+                      <th>Категории</th>
+                      <th>Действия</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>1</td>
+                      <td>
+                        <div
+                          class="bg-secondary text-white rounded d-flex align-items-center justify-content-center"
+                          style="width: 60px; height: 60px"
+                        >
+                          <i class="bi bi-image"></i>
+                        </div>
+                      </td>
+                      <td>Товар 1</td>
+                      <td>1 999 ₽</td>
+                      <td><span class="badge bg-info">Электроника</span></td>
+                      <td>
+                        <button class="btn btn-sm btn-primary">
+                          <i class="bi bi-pencil"></i>
+                        </button>
+                        <button class="btn btn-sm btn-danger">
+                          <i class="bi bi-trash"></i>
+                        </button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>2</td>
+                      <td>
+                        <div
+                          class="bg-secondary text-white rounded d-flex align-items-center justify-content-center"
+                          style="width: 60px; height: 60px"
+                        >
+                          <i class="bi bi-image"></i>
+                        </div>
+                      </td>
+                      <td>Товар 2</td>
+                      <td>2 499 ₽</td>
+                      <td>
+                        <span class="badge bg-info">Одежда</span>
+                        <span class="badge bg-info">Спорт</span>
+                      </td>
+                      <td>
+                        <button class="btn btn-sm btn-primary">
+                          <i class="bi bi-pencil"></i>
+                        </button>
+                        <button class="btn btn-sm btn-danger">
+                          <i class="bi bi-trash"></i>
+                        </button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>3</td>
+                      <td>
+                        <div
+                          class="bg-secondary text-white rounded d-flex align-items-center justify-content-center"
+                          style="width: 60px; height: 60px"
+                        >
+                          <i class="bi bi-image"></i>
+                        </div>
+                      </td>
+                      <td>Товар 3</td>
+                      <td>3 999 ₽</td>
+                      <td><span class="badge bg-info">Книги</span></td>
+                      <td>
+                        <button class="btn btn-sm btn-primary">
+                          <i class="bi bi-pencil"></i>
+                        </button>
+                        <button class="btn btn-sm btn-danger">
+                          <i class="bi bi-trash"></i>
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Страница 7: Админ - Заказы -->
+      <div class="page-content" id="admin-orders">
+        <nav class="navbar navbar-dark bg-warning mb-4">
+          <div class="container-fluid">
+            <span class="navbar-brand mb-0 h1 text-dark">
+              <i class="bi bi-gear-fill"></i> Панель администратора
+            </span>
+            <button class="btn btn-outline-dark">
+              <i class="bi bi-box-arrow-right"></i> Выход
+            </button>
+          </div>
+        </nav>
+
+        <div class="container-fluid">
+          <h2 class="mb-4">Управление заказами</h2>
+
+          <div class="alert alert-info">
+            <i class="bi bi-info-circle"></i> Администратор может просматривать заказы, изменять их
+            статус и добавлять комментарии
+          </div>
+
+          <!-- Список заказов -->
+          <div class="card mb-4">
+            <div class="card-header bg-primary text-white">
+              <h5 class="mb-0"><i class="bi bi-clipboard-check"></i> Список заказов</h5>
+            </div>
+            <div class="card-body p-0">
+              <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                  <thead class="table-dark">
+                    <tr>
+                      <th>ID</th>
+                      <th>ФИО клиента</th>
+                      <th>Телефон</th>
+                      <th>Статус</th>
+                      <th>Сумма</th>
+                      <th>Действия</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>1</td>
+                      <td>Иванов Иван Иванович</td>
+                      <td>+7 (999) 123-45-67</td>
+                      <td>
+                        <span class="badge bg-warning text-dark status-badge">В обработке</span>
+                      </td>
+                      <td>6 497 ₽</td>
+                      <td>
+                        <button class="btn btn-sm btn-info text-white">
+                          <i class="bi bi-eye"></i> Детали
+                        </button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>2</td>
+                      <td>Петрова Мария Сергеевна</td>
+                      <td>+7 (999) 765-43-21</td>
+                      <td><span class="badge bg-primary status-badge">Доставляется</span></td>
+                      <td>3 250 ₽</td>
+                      <td>
+                        <button class="btn btn-sm btn-info text-white">
+                          <i class="bi bi-eye"></i> Детали
+                        </button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>3</td>
+                      <td>Сидоров Петр Петрович</td>
+                      <td>+7 (999) 111-22-33</td>
+                      <td><span class="badge bg-success status-badge">Выполнен</span></td>
+                      <td>12 800 ₽</td>
+                      <td>
+                        <button class="btn btn-sm btn-info text-white">
+                          <i class="bi bi-eye"></i> Детали
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- Детальный вид заказа -->
+          <div class="card">
+            <div class="card-header bg-success text-white">
+              <h5 class="mb-0"><i class="bi bi-file-earmark-text"></i> Детали заказа #1</h5>
+            </div>
+            <div class="card-body">
+              <div class="row mb-4">
+                <div class="col-md-6">
+                  <h6 class="text-muted">Информация о клиенте</h6>
+                  <p class="mb-1"><strong>ФИО (customer_fio):</strong> Иванов Иван Иванович</p>
+                  <p class="mb-1"><strong>Телефон (customer_phone):</strong> +7 (999) 123-45-67</p>
+                  <p class="mb-1"><strong>Email:</strong> ivanov@mail.com</p>
+                  <p class="mb-1"><strong>Адрес:</strong> г. Москва, ул. Ленина, д. 10, кв. 5</p>
+                </div>
+                <div class="col-md-6">
+                  <h6 class="text-muted">Управление заказом</h6>
+                  <label class="form-label fw-bold">Статус заказа (status)</label>
+                  <select class="form-select mb-2">
+                    <option>Новый</option>
+                    <option selected>В обработке</option>
+                    <option>Доставляется</option>
+                    <option>Выполнен</option>
+                    <option>Отменен</option>
+                  </select>
+                  <button class="btn btn-primary w-100">
+                    <i class="bi bi-arrow-repeat"></i> Обновить статус
+                  </button>
+                </div>
+              </div>
+
+              <h6 class="text-muted mb-3">Товары в заказе (products)</h6>
+              <div class="table-responsive mb-4">
+                <table class="table table-bordered">
+                  <thead class="table-light">
+                    <tr>
+                      <th>Название</th>
+                      <th>Цена</th>
+                      <th>Количество</th>
+                      <th>Сумма</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Товар 1</td>
+                      <td>1 999 ₽</td>
+                      <td>2</td>
+                      <td>3 998 ₽</td>
+                    </tr>
+                    <tr>
+                      <td>Товар 2</td>
+                      <td>2 499 ₽</td>
+                      <td>1</td>
+                      <td>2 499 ₽</td>
+                    </tr>
+                  </tbody>
+                  <tfoot class="table-secondary">
+                    <tr>
+                      <th colspan="3" class="text-end">Итого:</th>
+                      <th>6 497 ₽</th>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+
+              <h6 class="text-muted mb-3">Комментарии (comments)</h6>
+              <div class="mb-3">
+                <div class="comment-item">
+                  <strong>Администратор (26.10.2025 10:30):</strong><br />
+                  Заказ принят в обработку
+                </div>
+                <div class="comment-item">
+                  <strong>Администратор (26.10.2025 14:15):</strong><br />
+                  Товар упакован, ожидает отправки
+                </div>
+              </div>
+
+              <label class="form-label fw-bold">Добавить комментарий:</label>
+              <textarea
+                class="form-control mb-2"
+                rows="3"
+                placeholder="Введите комментарий к заказу..."
+              ></textarea>
+              <button class="btn btn-success">
+                <i class="bi bi-chat-dots"></i> Добавить комментарий
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    
+
     <script>
-        function showPage(pageId) {
-            // Скрыть все страницы
-            document.querySelectorAll('.page-content').forEach(page => {
-                page.classList.remove('active');
-            });
-            
-            // Убрать active у всех табов
-            document.querySelectorAll('.nav-link').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            
-            // Показать выбранную страницу
-            document.getElementById(pageId).classList.add('active');
-            
-            // Активировать выбранный таб
-            document.getElementById(pageId + '-tab').classList.add('active');
-        }
+      function showPage(pageId) {
+        // Скрыть все страницы
+        document.querySelectorAll('.page-content').forEach((page) => {
+          page.classList.remove('active');
+        });
+
+        // Убрать active у всех табов
+        document.querySelectorAll('.nav-link').forEach((tab) => {
+          tab.classList.remove('active');
+        });
+
+        // Показать выбранную страницу
+        document.getElementById(pageId).classList.add('active');
+
+        // Активировать выбранный таб
+        document.getElementById(pageId + '-tab').classList.add('active');
+      }
     </script>
-</body>
+  </body>
 </html>

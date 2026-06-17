@@ -1,26 +1,25 @@
 <template>
   <div class="card">
-    <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
+    <div
+      class="card-header bg-success text-white d-flex justify-content-between align-items-center"
+    >
       <h5 class="mb-0">
         <i class="bi bi-file-earmark-text"></i> Деталі замовлення #{{ order.id }}
       </h5>
-      <button
-        @click="$emit('close')"
-        class="btn btn-sm btn-light"
-      >
+      <button @click="$emit('close')" class="btn btn-sm btn-light">
         <i class="bi bi-x"></i> Закрити
       </button>
     </div>
     <div class="card-body">
       <div class="row mb-4">
         <div class="col-md-6">
-          <h6 class="text-muted mb-3">
-            <i class="bi bi-person"></i> Інформація про клієнта
-          </h6>
+          <h6 class="text-muted mb-3"><i class="bi bi-person"></i> Інформація про клієнта</h6>
           <table class="table table-sm table-borderless">
             <tr>
-              <td class="text-muted" style="width: 40%;">ПІБ:</td>
-              <td><strong>{{ order.customerFio }}</strong></td>
+              <td class="text-muted" style="width: 40%">ПІБ:</td>
+              <td>
+                <strong>{{ order.customerFio }}</strong>
+              </td>
             </tr>
             <tr>
               <td class="text-muted">Телефон:</td>
@@ -41,9 +40,7 @@
           </table>
         </div>
         <div class="col-md-6">
-          <h6 class="text-muted mb-3">
-            <i class="bi bi-gear"></i> Управління замовленням
-          </h6>
+          <h6 class="text-muted mb-3"><i class="bi bi-gear"></i> Управління замовленням</h6>
           <label class="form-label fw-bold">Статус замовлення</label>
           <select
             :value="order.status"
@@ -56,26 +53,21 @@
             <option>Виконано</option>
             <option>Скасовано</option>
           </select>
-          <button
-            @click="$emit('save-status')"
-            class="btn btn-primary w-100"
-          >
+          <button @click="$emit('save-status')" class="btn btn-primary w-100">
             <i class="bi bi-arrow-repeat"></i> Оновити статус
           </button>
         </div>
       </div>
 
-      <h6 class="text-muted mb-3">
-        <i class="bi bi-cart"></i> Товари в замовленні
-      </h6>
+      <h6 class="text-muted mb-3"><i class="bi bi-cart"></i> Товари в замовленні</h6>
       <div class="table-responsive mb-4">
         <table class="table table-bordered">
           <thead class="table-light">
             <tr>
               <th>Назва</th>
-              <th style="width: 15%;">Ціна</th>
-              <th style="width: 15%;">Кількість</th>
-              <th style="width: 15%;">Сума</th>
+              <th style="width: 15%">Ціна</th>
+              <th style="width: 15%">Кількість</th>
+              <th style="width: 15%">Сума</th>
             </tr>
           </thead>
           <tbody>
@@ -83,7 +75,9 @@
               <td>{{ product.title }}</td>
               <td>{{ product.price }} ₴</td>
               <td class="text-center">{{ product.quantity }}</td>
-              <td><strong>{{ product.price * product.quantity }} ₴</strong></td>
+              <td>
+                <strong>{{ product.price * product.quantity }} ₴</strong>
+              </td>
             </tr>
           </tbody>
           <tfoot class="table-secondary">
@@ -95,15 +89,9 @@
         </table>
       </div>
 
-      <h6 class="text-muted mb-3">
-        <i class="bi bi-chat-dots"></i> Коментарі до замовлення
-      </h6>
+      <h6 class="text-muted mb-3"><i class="bi bi-chat-dots"></i> Коментарі до замовлення</h6>
       <div class="mb-3">
-        <div
-          v-for="(comment, index) in order.comments"
-          :key="index"
-          class="comment-item mb-2"
-        >
+        <div v-for="(comment, index) in order.comments" :key="index" class="comment-item mb-2">
           <div class="d-flex justify-content-between align-items-start">
             <strong>{{ comment.author }}</strong>
             <small class="text-muted">{{ formatDate(comment.date) }}</small>
@@ -142,15 +130,15 @@
 defineProps({
   order: {
     type: Object,
-    required: true
+    required: true,
   },
   newComment: {
     type: String,
-    default: ''
-  }
-})
+    default: '',
+  },
+});
 
-defineEmits(['close', 'update-status', 'save-status', 'add-comment', 'update:newComment'])
+defineEmits(['close', 'update-status', 'save-status', 'add-comment', 'update:newComment']);
 
 const formatDate = (dateString) => {
   return new Date(dateString).toLocaleString('uk-UA', {
@@ -159,8 +147,8 @@ const formatDate = (dateString) => {
     day: '2-digit',
     hour: '2-digit',
     minute: '2-digit',
-  })
-}
+  });
+};
 </script>
 
 <style scoped>

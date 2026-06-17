@@ -38,9 +38,9 @@
 </template>
 
 <script setup>
-import { useAuth } from '../composables/useAuth.js'
+import { useAuth } from '../composables/useAuth.js';
 
-const { logout } = useAuth()
+const { logout } = useAuth();
 </script>
 
 <style scoped>

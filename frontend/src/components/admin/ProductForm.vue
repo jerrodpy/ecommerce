@@ -20,13 +20,11 @@
                 class="form-control"
                 placeholder="Введіть назву"
                 required
-              >
+              />
             </div>
 
             <div class="mb-3">
-              <label class="form-label fw-bold">
-                Опис <span class="text-danger">*</span>
-              </label>
+              <label class="form-label fw-bold"> Опис <span class="text-danger">*</span> </label>
               <textarea
                 v-model="formData.description"
                 class="form-control"
@@ -37,9 +35,7 @@
             </div>
 
             <div class="mb-3">
-              <label class="form-label fw-bold">
-                Ціна <span class="text-danger">*</span>
-              </label>
+              <label class="form-label fw-bold"> Ціна <span class="text-danger">*</span> </label>
               <div class="input-group">
                 <input
                   v-model="formData.price"
@@ -48,7 +44,7 @@
                   placeholder="0.00"
                   step="0.01"
                   required
-                >
+                />
                 <span class="input-group-text">₴</span>
               </div>
             </div>
@@ -57,21 +53,13 @@
           <div class="col-md-4">
             <div class="mb-3">
               <label class="form-label fw-bold">Зображення</label>
-              <div
-                @click="$refs.fileInput.click()"
-                class="upload-area rounded"
-              >
+              <div @click="$refs.fileInput.click()" class="upload-area rounded">
                 <div v-if="!imagePreview" class="text-center">
-                  <i class="bi bi-cloud-upload" style="font-size: 3rem;"></i>
+                  <i class="bi bi-cloud-upload" style="font-size: 3rem"></i>
                   <p class="mb-0">Натисніть для завантаження</p>
                   <small>або перетягніть файл</small>
                 </div>
-                <img
-                  v-else
-                  :src="imagePreview"
-                  alt="Preview"
-                  class="img-fluid rounded"
-                >
+                <img v-else :src="imagePreview" alt="Preview" class="img-fluid rounded" />
               </div>
               <input
                 ref="fileInput"
@@ -79,7 +67,7 @@
                 class="d-none"
                 accept="image/*"
                 @change="handleImageUpload"
-              >
+              />
               <button
                 v-if="imagePreview"
                 @click.prevent="clearImage"
@@ -93,19 +81,15 @@
             <div class="mb-3">
               <label class="form-label fw-bold">Категорії</label>
               <div class="card">
-                <div class="card-body" style="max-height: 176px; overflow-y: auto;">
-                  <div
-                    v-for="category in categories"
-                    :key="category.id"
-                    class="form-check mb-2"
-                  >
+                <div class="card-body" style="max-height: 176px; overflow-y: auto">
+                  <div v-for="category in categories" :key="category.id" class="form-check mb-2">
                     <input
                       v-model="formData.categories"
                       :value="category.id"
                       class="form-check-input"
                       type="checkbox"
                       :id="`cat-form-${category.id}`"
-                    >
+                    />
                     <label class="form-check-label" :for="`cat-form-${category.id}`">
                       {{ category.title }}
                     </label>
@@ -117,14 +101,8 @@
         </div>
 
         <div class="d-flex gap-2">
-          <button type="submit" class="btn btn-success">
-            <i class="bi bi-save"></i> Зберегти
-          </button>
-          <button
-            type="button"
-            @click="$emit('cancel')"
-            class="btn btn-secondary"
-          >
+          <button type="submit" class="btn btn-success"><i class="bi bi-save"></i> Зберегти</button>
+          <button type="button" @click="$emit('cancel')" class="btn btn-secondary">
             <i class="bi bi-x-circle"></i> Скасувати
           </button>
         </div>
@@ -134,36 +112,36 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue'
+import { ref, watch } from 'vue';
 
 const props = defineProps({
   product: {
     type: Object,
-    default: null
+    default: null,
   },
   categories: {
     type: Array,
-    required: true
+    required: true,
   },
   isEdit: {
     type: Boolean,
-    default: false
-  }
-})
+    default: false,
+  },
+});
 
-const emit = defineEmits(['submit', 'cancel'])
+const emit = defineEmits(['submit', 'cancel']);
 
-const fileInput = ref(null)
-const imagePreview = ref(null)
-const imageChanged = ref(false)
+const fileInput = ref(null);
+const imagePreview = ref(null);
+const imageChanged = ref(false);
 
 const formData = ref({
   title: '',
   description: '',
   price: '',
   image: null,
-  categories: []
-})
+  categories: [],
+});
 
 const resetForm = () => {
   formData.value = {
@@ -171,57 +149,61 @@ const resetForm = () => {
     description: '',
     price: '',
     image: null,
-    categories: []
-  }
-  imagePreview.value = null
-  imageChanged.value = false
-}
+    categories: [],
+  };
+  imagePreview.value = null;
+  imageChanged.value = false;
+};
 
-watch(() => props.product, (newProduct) => {
-  if (newProduct) {
-    formData.value = {
-      title: newProduct.title,
-      description: newProduct.description,
-      price: newProduct.price,
-      image: null,
-      categories: (newProduct.categories || []).map(c => typeof c === 'object' ? c.id : c)
+watch(
+  () => props.product,
+  (newProduct) => {
+    if (newProduct) {
+      formData.value = {
+        title: newProduct.title,
+        description: newProduct.description,
+        price: newProduct.price,
+        image: null,
+        categories: (newProduct.categories || []).map((c) => (typeof c === 'object' ? c.id : c)),
+      };
+      imagePreview.value = newProduct.image;
+      imageChanged.value = false;
+    } else {
+      resetForm();
     }
-    imagePreview.value = newProduct.image
-    imageChanged.value = false
-  } else {
-    resetForm()
-  }
-}, { immediate: true })
+  },
+  { immediate: true },
+);
 
 const handleImageUpload = (event) => {
-  const file = event.target.files[0]
+  const file = event.target.files[0];
   if (file) {
-    const reader = new FileReader()
+    const reader = new FileReader();
     reader.onload = (e) => {
-      imagePreview.value = e.target.result
-    }
-    reader.readAsDataURL(file)
-    formData.value.image = file
-    imageChanged.value = true
+      imagePreview.value = e.target.result;
+    };
+    reader.readAsDataURL(file);
+    formData.value.image = file;
+    imageChanged.value = true;
   }
-}
+};
 
 const clearImage = () => {
-  imagePreview.value = null
-  formData.value.image = null
-  imageChanged.value = true
+  imagePreview.value = null;
+  formData.value.image = null;
+  imageChanged.value = true;
   if (fileInput.value) {
-    fileInput.value.value = ''
+    fileInput.value.value = '';
   }
-}
+};
 
 const handleSubmit = () => {
-  const data = { ...formData.value }
+  const data = { ...formData.value };
   if (!imageChanged.value) {
-    delete data.image
+    delete data.image;
   }
-  emit('submit', data)
-}
+  emit('submit', data);
+};
 </script>
 
 <style scoped>
