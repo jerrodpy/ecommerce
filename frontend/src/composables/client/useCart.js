@@ -1,13 +1,10 @@
-import { ref, computed } from 'vue'
+import { ref, computed, reactive } from 'vue'
 import { v4 as uuidv4 } from 'uuid'
-import { clientService } from '../services/client.js'
+import { clientService } from '../../services/client.js'
 
 const STORAGE_GUEST_KEY = 'guest_id'
 const STORAGE_CART_KEY = 'cart_id'
 
-// --- Global state (singleton) ---
-
-// Resolve or generate guest_id
 let _guestId = localStorage.getItem(STORAGE_GUEST_KEY)
 if (!_guestId) {
     _guestId = uuidv4()
@@ -15,13 +12,9 @@ if (!_guestId) {
 }
 
 export const guestId = _guestId
-
 export const cartId = ref(localStorage.getItem(STORAGE_CART_KEY) || null)
-
-// items: array of { product_id, quantity, product: { id, title, price, image } }
 export const items = ref([])
-
-// --- Helpers ---
+export const removingIds = reactive(new Set())
 
 function setCartFromResponse(data) {
     if (!data) return
@@ -33,19 +26,13 @@ function setCartFromResponse(data) {
         items.value = data.products.map(p => ({
             product_id: p.product_id,
             quantity: p.quantity,
-            product: p.product || {}
+            product: p.product || {},
         }))
     }
 }
 
-// --- Composable ---
-
 export function useCart() {
     const itemsCount = computed(() =>
-        items.value.reduce((total, item) => total + item.quantity, 0)
-    )
-
-    const totalItems = computed(() =>
         items.value.reduce((total, item) => total + item.quantity, 0)
     )
 
@@ -59,7 +46,7 @@ export function useCart() {
     const initCart = async () => {
         try {
             const response = await clientService.getCart(guestId)
-            if (response && response.data) {
+            if (response?.data) {
                 setCartFromResponse(response.data)
             }
         } catch (err) {
@@ -71,13 +58,10 @@ export function useCart() {
         const existingItem = items.value.find(item => item.product_id === product.id)
 
         if (existingItem) {
-            const newQty = existingItem.quantity + 1
-            existingItem.quantity = newQty
-            await updateQuantity(product.id, newQty)
+            await updateQuantity(product.id, existingItem.quantity + 1)
             return
         }
 
-        // Optimistically add to local state
         items.value.push({
             product_id: product.id,
             quantity: 1,
@@ -85,20 +69,19 @@ export function useCart() {
                 id: product.id,
                 title: product.title,
                 price: product.price,
-                image: product.image
-            }
+                image: product.image,
+            },
         })
 
         try {
             const response = await clientService.addToCart({
                 guest_id: guestId,
-                products: [{ product_id: product.id, quantity: 1 }]
+                products: [{ product_id: product.id, quantity: 1 }],
             })
-            if (response && response.data) {
+            if (response?.data) {
                 setCartFromResponse(response.data)
             }
         } catch (err) {
-            // Roll back optimistic update on failure
             const idx = items.value.findIndex(i => i.product_id === product.id)
             if (idx !== -1) items.value.splice(idx, 1)
             console.error('addItem error:', err)
@@ -113,7 +96,7 @@ export function useCart() {
         if (!cartId.value) return
         try {
             const response = await clientService.updateProductInCart(cartId.value, productId, { quantity: qty })
-            if (response && response.data) {
+            if (response?.data) {
                 setCartFromResponse(response.data)
             }
         } catch (err) {
@@ -122,15 +105,16 @@ export function useCart() {
     }
 
     const removeItem = async (productId) => {
-        const idx = items.value.findIndex(i => i.product_id === productId)
-        if (idx !== -1) items.value.splice(idx, 1)
+        removingIds.add(productId)
         try {
-            const response = await clientService.deleteProductFromCart(productId, guestId)
-            if (response && response.data) {
+            const response = await clientService.deleteProductFromCart(cartId.value, productId, guestId)
+            if (response?.data) {
                 setCartFromResponse(response.data)
             }
         } catch (err) {
             console.error('removeItem error:', err)
+        } finally {
+            removingIds.delete(productId)
         }
     }
 
@@ -144,13 +128,13 @@ export function useCart() {
         guestId,
         cartId,
         items,
+        removingIds,
         itemsCount,
-        totalItems,
         totalPrice,
         initCart,
         addItem,
         updateQuantity,
         removeItem,
-        clearCart
+        clearCart,
     }
 }

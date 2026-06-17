@@ -8,6 +8,6 @@ export const clientService = {
     getCart: (guestId) => api.get('/carts', { guest_id: guestId }),
     addToCart: (data) => api.post('/carts/items', data),
     updateProductInCart: (cartId, productId, data) => api.put('/carts/' + cartId + '/products/' + productId, data),
-    deleteProductFromCart: (productId, guestId) => api.delete('/carts/items/' + productId + '?guest_id=' + encodeURIComponent(guestId)),
+    deleteProductFromCart: (cartId, productId, guestId) => api.delete('/carts/' + cartId + '/products/' + productId + '?guest_id=' + encodeURIComponent(guestId)),
     createOrder: (data) => api.post('/orders', data),
 }

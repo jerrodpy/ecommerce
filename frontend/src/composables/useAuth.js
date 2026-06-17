@@ -1,5 +1,5 @@
-import { ref, computed } from 'vue'
-import { api } from '../services/api.js'
+import {ref, computed} from 'vue'
+import {api} from '../services/api.js'
 import router from '../router/index.js'
 
 const user = ref(null)
@@ -27,12 +27,12 @@ export function useAuth() {
   const isAuthenticated = computed(() => !!token.value)
   const isAdmin = computed(() => user.value?.role === 'admin')
 
-  const login = async ({ email, password }) => {
+  const login = async ({email, password}) => {
     loading.value = true
     error.value = null
 
     try {
-      const response = await api.post('/login', { email, password })
+      const response = await api.post('/login', {email, password})
       const data = response.data
 
       token.value = data.access_token
@@ -46,7 +46,7 @@ export function useAuth() {
       localStorage.setItem('token', data.access_token)
       localStorage.setItem('user', JSON.stringify(user.value))
 
-      return { success: true }
+      return {success: true}
     } catch (err) {
       error.value = err.message
       throw err
@@ -55,14 +55,14 @@ export function useAuth() {
     }
   }
 
-  const register = async ({ name, email, password, passwordConfirm }) => {
+  const register = async ({name, email, password, passwordConfirm}) => {
     loading.value = true
     error.value = null
 
     try {
-      await api.post('/register', { email, password })
+      await api.post('/register', {name, email, password})
       // After successful registration, log in to obtain an access token
-      return await login({ email, password })
+      return await login({email, password})
     } catch (err) {
       error.value = err.message
       throw err

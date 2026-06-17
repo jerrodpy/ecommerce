@@ -2,112 +2,112 @@
   <div class="card">
     <div class="card-header text-white" :class="isEdit ? 'bg-primary' : 'bg-success'">
       <h5 class="mb-0">
-        <i class="bi bi-box"></i> 
-        {{ isEdit ? 'Редактирование товара' : 'Создание нового товара' }}
+        <i class="bi bi-box"></i>
+        {{ isEdit ? 'Редагування товару' : 'Створення нового товару' }}
       </h5>
     </div>
     <div class="card-body">
-      <form @submit.prevent="$emit('submit', formData)">
+      <form @submit.prevent="handleSubmit">
         <div class="row">
           <div class="col-md-8">
             <div class="mb-3">
               <label class="form-label fw-bold">
-                Название товара <span class="text-danger">*</span>
+                Назва товару <span class="text-danger">*</span>
               </label>
-              <input 
-                v-model="formData.title" 
-                type="text" 
-                class="form-control" 
-                placeholder="Введите название"
+              <input
+                v-model="formData.title"
+                type="text"
+                class="form-control"
+                placeholder="Введіть назву"
                 required
               >
             </div>
-            
+
             <div class="mb-3">
               <label class="form-label fw-bold">
-                Описание <span class="text-danger">*</span>
+                Опис <span class="text-danger">*</span>
               </label>
-              <textarea 
-                v-model="formData.description" 
-                class="form-control" 
-                rows="5" 
-                placeholder="Подробное описание товара..."
+              <textarea
+                v-model="formData.description"
+                class="form-control"
+                rows="5"
+                placeholder="Детальний опис товару..."
                 required
               ></textarea>
             </div>
-            
+
             <div class="mb-3">
               <label class="form-label fw-bold">
-                Цена <span class="text-danger">*</span>
+                Ціна <span class="text-danger">*</span>
               </label>
               <div class="input-group">
-                <input 
-                  v-model="formData.price" 
-                  type="number" 
-                  class="form-control" 
-                  placeholder="0.00" 
+                <input
+                  v-model="formData.price"
+                  type="number"
+                  class="form-control"
+                  placeholder="0.00"
                   step="0.01"
                   required
                 >
-                <span class="input-group-text">₽</span>
+                <span class="input-group-text">₴</span>
               </div>
             </div>
           </div>
-          
+
           <div class="col-md-4">
             <div class="mb-3">
-              <label class="form-label fw-bold">Изображение</label>
-              <div 
+              <label class="form-label fw-bold">Зображення</label>
+              <div
                 @click="$refs.fileInput.click()"
                 class="upload-area rounded"
               >
                 <div v-if="!imagePreview" class="text-center">
                   <i class="bi bi-cloud-upload" style="font-size: 3rem;"></i>
-                  <p class="mb-0">Кликните для загрузки</p>
-                  <small>или перетащите файл</small>
+                  <p class="mb-0">Натисніть для завантаження</p>
+                  <small>або перетягніть файл</small>
                 </div>
-                <img 
-                  v-else 
-                  :src="imagePreview" 
-                  alt="Preview" 
+                <img
+                  v-else
+                  :src="imagePreview"
+                  alt="Preview"
                   class="img-fluid rounded"
                 >
               </div>
-              <input 
+              <input
                 ref="fileInput"
-                type="file" 
+                type="file"
                 class="d-none"
                 accept="image/*"
                 @change="handleImageUpload"
               >
-              <button 
+              <button
                 v-if="imagePreview"
                 @click.prevent="clearImage"
                 type="button"
                 class="btn btn-sm btn-outline-danger mt-2 w-100"
               >
-                <i class="bi bi-trash"></i> Удалить изображение
+                <i class="bi bi-trash"></i> Видалити зображення
               </button>
             </div>
-            
+
             <div class="mb-3">
-              <label class="form-label fw-bold">Категории</label>
+              <label class="form-label fw-bold">Категорії</label>
               <div class="card">
-                <div class="card-body">
-                  <div 
-                    v-for="category in categories" 
+                <div class="card-body" style="max-height: 176px; overflow-y: auto;">
+                  <div
+                    v-for="category in categories"
                     :key="category.id"
                     class="form-check mb-2"
                   >
-                    <input 
+                    <input
                       v-model="formData.categories"
                       :value="category.id"
-                      class="form-check-input" 
-                      type="checkbox" 
+                      class="form-check-input"
+                      type="checkbox"
                       :id="`cat-form-${category.id}`"
                     >
                     <label class="form-check-label" :for="`cat-form-${category.id}`">
-                      {{ category.name }}
+                      {{ category.title }}
                     </label>
                   </div>
                 </div>
@@ -115,17 +115,17 @@
             </div>
           </div>
         </div>
-        
+
         <div class="d-flex gap-2">
           <button type="submit" class="btn btn-success">
-            <i class="bi bi-save"></i> Сохранить
+            <i class="bi bi-save"></i> Зберегти
           </button>
-          <button 
+          <button
             type="button"
-            @click="$emit('cancel')" 
+            @click="$emit('cancel')"
             class="btn btn-secondary"
           >
-            <i class="bi bi-x-circle"></i> Отмена
+            <i class="bi bi-x-circle"></i> Скасувати
           </button>
         </div>
       </form>
@@ -155,6 +155,7 @@ const emit = defineEmits(['submit', 'cancel'])
 
 const fileInput = ref(null)
 const imagePreview = ref(null)
+const imageChanged = ref(false)
 
 const formData = ref({
   title: '',
@@ -164,17 +165,29 @@ const formData = ref({
   categories: []
 })
 
-// Загружаем данные товара при редактировании
+const resetForm = () => {
+  formData.value = {
+    title: '',
+    description: '',
+    price: '',
+    image: null,
+    categories: []
+  }
+  imagePreview.value = null
+  imageChanged.value = false
+}
+
 watch(() => props.product, (newProduct) => {
   if (newProduct) {
     formData.value = {
       title: newProduct.title,
       description: newProduct.description,
       price: newProduct.price,
-      image: newProduct.image,
-      categories: [...(newProduct.categories || [])]
+      image: null,
+      categories: (newProduct.categories || []).map(c => typeof c === 'object' ? c.id : c)
     }
     imagePreview.value = newProduct.image
+    imageChanged.value = false
   } else {
     resetForm()
   }
@@ -186,29 +199,28 @@ const handleImageUpload = (event) => {
     const reader = new FileReader()
     reader.onload = (e) => {
       imagePreview.value = e.target.result
-      formData.value.image = e.target.result
     }
     reader.readAsDataURL(file)
+    formData.value.image = file
+    imageChanged.value = true
   }
 }
 
 const clearImage = () => {
   imagePreview.value = null
   formData.value.image = null
+  imageChanged.value = true
   if (fileInput.value) {
     fileInput.value.value = ''
   }
 }
 
-const resetForm = () => {
-  formData.value = {
-    title: '',
-    description: '',
-    price: '',
-    image: null,
-    categories: []
+const handleSubmit = () => {
+  const data = { ...formData.value }
+  if (!imageChanged.value) {
+    delete data.image
   }
-  imagePreview.value = null
+  emit('submit', data)
 }
 </script>
 

@@ -1,5 +1,5 @@
 import { ref } from 'vue'
-import { statusesService } from '../services/statuses.js'
+import { statusesService } from '../../services/admin/statuses.js'
 
 const statuses = ref([])
 const loading = ref(false)
@@ -12,9 +12,9 @@ export function useStatuses() {
 
         try {
             const data = await statusesService.getAll()
-            statuses.value = data.data || data
+            statuses.value = data.data ?? []
         } catch (err) {
-            error.value = err.message // Ошибка уже обработана в api.js!
+            error.value = err.message
         } finally {
             loading.value = false
         }

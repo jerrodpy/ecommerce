@@ -1,43 +1,41 @@
 <template>
   <div>
-    <h2 class="mb-4">Управление категориями</h2>
-    
+    <h2 class="mb-4">Управління категоріями</h2>
+
     <div class="alert alert-info">
-      <i class="bi bi-info-circle"></i> Здесь администратор может создавать новые категории и удалять существующие
+      <i class="bi bi-info-circle"></i> Тут адміністратор може створювати нові категорії та видаляти існуючі
     </div>
-    
-    <!-- Форма добавления -->
+
     <div class="card mb-4">
       <div class="card-header bg-success text-white">
-        <h5 class="mb-0"><i class="bi bi-plus-circle"></i> Добавить новую категорию</h5>
+        <h5 class="mb-0"><i class="bi bi-plus-circle"></i> Додати нову категорію</h5>
       </div>
       <div class="card-body">
         <form @submit.prevent="addCategory">
           <div class="row">
             <div class="col-md-10">
-              <label class="form-label fw-bold">Название категории</label>
+              <label class="form-label fw-bold">Назва категорії</label>
               <input
                 v-model="newCategory.title"
                 type="text"
                 class="form-control"
-                placeholder="Например: Электроника"
+                placeholder="Наприклад: Електроніка"
                 required
               >
             </div>
             <div class="col-md-2 d-flex align-items-end">
               <button type="submit" class="btn btn-success w-100">
-                <i class="bi bi-plus-lg"></i> Создать
+                <i class="bi bi-plus-lg"></i> Створити
               </button>
             </div>
           </div>
         </form>
       </div>
     </div>
-    
-    <!-- Список категорий -->
+
     <div class="card">
       <div class="card-header bg-primary text-white">
-        <h5 class="mb-0"><i class="bi bi-list-ul"></i> Существующие категории</h5>
+        <h5 class="mb-0"><i class="bi bi-list-ul"></i> Існуючі категорії</h5>
       </div>
       <div class="card-body p-0">
         <div class="table-responsive">
@@ -45,9 +43,9 @@
             <thead class="table-dark">
               <tr>
                 <th>ID</th>
-                <th>Название</th>
-                <th>Количество товаров</th>
-                <th>Действия</th>
+                <th>Назва</th>
+                <th>Кількість товарів</th>
+                <th>Дії</th>
               </tr>
             </thead>
             <tbody>
@@ -63,29 +61,29 @@
                   >
                 </td>
                 <td>
-                  <span class="badge bg-secondary">{{ category.productCount || 0 }}</span>
+                  <span class="badge bg-secondary">{{ category.products_count ?? 0 }}</span>
                 </td>
                 <td>
                   <template v-if="editingId !== category.id">
-                    <button 
-                      @click="startEdit(category)" 
+                    <button
+                      @click="startEdit(category)"
                       class="btn btn-sm btn-primary"
                     >
-                      <i class="bi bi-pencil"></i> Редактировать
+                      <i class="bi bi-pencil"></i> Редагувати
                     </button>
-                    <button 
-                      @click="deleteCategory(category.id)" 
+                    <button
+                      @click="deleteCategory(category.id)"
                       class="btn btn-sm btn-danger"
                     >
-                      <i class="bi bi-trash"></i> Удалить
+                      <i class="bi bi-trash"></i> Видалити
                     </button>
                   </template>
                   <template v-else>
                     <button @click="saveEdit" class="btn btn-sm btn-success">
-                      <i class="bi bi-check"></i> Сохранить
+                      <i class="bi bi-check"></i> Зберегти
                     </button>
                     <button @click="cancelEdit" class="btn btn-sm btn-secondary">
-                      <i class="bi bi-x"></i> Отмена
+                      <i class="bi bi-x"></i> Скасувати
                     </button>
                   </template>
                 </td>
@@ -99,29 +97,27 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
-import { useCategories } from '../../composables/useCategories.js'
+import { ref, onMounted } from 'vue'
+import { useCategories } from '../../composables/admin/useCategories.js'
+import { useToast } from '../../composables/useToast.js'
+import { useConfirm } from '../../composables/useConfirm.js'
 
 const categoriesStore = useCategories()
+const categories = categoriesStore.categories
+const toast = useToast()
+const { confirm } = useConfirm()
 
-const categories = computed(() => categoriesStore.categories)
-
-const newCategory = ref({
-  title: ''
-})
-
+const newCategory = ref({ title: '' })
 const editingId = ref(null)
-const editForm = ref({
-  title: ''
-})
+const editForm = ref({ title: '' })
 
 const addCategory = async () => {
   try {
     await categoriesStore.addCategory(newCategory.value)
     newCategory.value.title = ''
-    alert('Категория успешно добавлена!')
+    toast.success('Категорію успішно додано!')
   } catch (error) {
-    alert('Ошибка при добавлении категории: ' + error.message)
+    toast.error('Помилка при додаванні категорії: ' + error.message)
   }
 }
 
@@ -134,9 +130,9 @@ const saveEdit = async () => {
   try {
     await categoriesStore.updateCategory(editingId.value, editForm.value)
     editingId.value = null
-    alert('Категория успешно обновлена!')
+    toast.success('Категорію успішно оновлено!')
   } catch (error) {
-    alert('Ошибка при обновлении категории: ' + error.message)
+    toast.error('Помилка при оновленні категорії: ' + error.message)
   }
 }
 
@@ -145,19 +141,16 @@ const cancelEdit = () => {
 }
 
 const deleteCategory = async (id) => {
-  if (confirm('Вы уверены, что хотите удалить эту категорию?')) {
-    try {
-      await categoriesStore.deleteCategory(id)
-      alert('Категория успешно удалена!')
-    } catch (error) {
-      alert('Ошибка при удалении категории: ' + error.message)
-    }
+  if (!await confirm('Ви впевнені, що хочете видалити цю категорію?')) return
+  try {
+    await categoriesStore.deleteCategory(id)
+    toast.success('Категорію успішно видалено!')
+  } catch (error) {
+    toast.error('Помилка при видаленні категорії: ' + error.message)
   }
 }
 
 onMounted(() => {
   categoriesStore.fetchCategories()
-
-  console.log('CATS: ' , categories.value);
 })
 </script>

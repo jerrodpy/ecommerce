@@ -1,6 +1,5 @@
 <template>
   <div class="default-layout">
-    <!-- Header -->
     <nav class="navbar navbar-dark bg-dark mb-4">
       <div class="container-fluid">
         <router-link to="/" class="navbar-brand mb-0 h1">
@@ -8,22 +7,21 @@
         </router-link>
         <div class="d-flex gap-3 align-items-center">
           <router-link to="/cart" class="btn btn-outline-light">
-            <i class="bi bi-cart3"></i> Корзина ({{ cartCount }})
+            <i class="bi bi-cart3"></i> Кошик ({{ cartCount }})
           </router-link>
           <template v-if="isAuthenticated">
             <span class="text-light small">{{ user?.name || user?.email }}</span>
             <button @click="logout" class="btn btn-outline-warning">
-              <i class="bi bi-box-arrow-right"></i> Выйти
+              <i class="bi bi-box-arrow-right"></i> Вийти
             </button>
           </template>
           <router-link v-else to="/auth" class="btn btn-outline-light">
-            <i class="bi bi-person"></i> Войти
+            <i class="bi bi-person"></i> Увійти
           </router-link>
         </div>
       </div>
     </nav>
 
-    <!-- Main Content -->
     <main>
       <router-view />
     </main>
@@ -37,12 +35,10 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
-import { useCart } from '../composables/useCart.js'
+import { useCart } from '../composables/client/useCart.js'
 import { useAuth } from '../composables/useAuth.js'
 
-const cartStore = useCart()
-const cartCount = computed(() => cartStore.itemsCount)
+const { itemsCount: cartCount } = useCart()
 
 const { user, isAuthenticated, logout } = useAuth()
 </script>

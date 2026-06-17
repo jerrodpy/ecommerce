@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import DefaultLayout from '../layouts/DefaultLayout.vue'
 import AdminLayout from '../layouts/AdminLayout.vue'
 
-const routers = [
+const routes = [
     {
         path: '/',
         component: DefaultLayout,
@@ -54,7 +54,7 @@ const routers = [
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
-    routes: routers
+    routes
 })
 
 export default router

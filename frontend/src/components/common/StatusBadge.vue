@@ -1,10 +1,10 @@
 <template>
-  <span 
+  <span
     class="badge status-badge"
     :class="badgeClass"
   >
     <i v-if="showIcon" :class="iconClass" class="me-1"></i>
-    {{ status }}
+    {{ label }}
   </span>
 </template>
 
@@ -22,29 +22,24 @@ const props = defineProps({
   }
 })
 
-const badgeClass = computed(() => {
-  const classes = {
-    'Новый': 'bg-warning text-dark',
-    'В обработке': 'bg-info text-white',
-    'Доставляется': 'bg-primary text-white',
-    'Выполнен': 'bg-success text-white',
-    'Отменен': 'bg-danger text-white',
-    'Активный': 'bg-success text-white',
-    'Неактивный': 'bg-secondary text-white'
-  }
-  return classes[props.status] || 'bg-secondary text-white'
-})
+const STATUS_MAP = {
+  Pending:    { label: 'Очікує',       badge: 'bg-secondary text-white' },
+  New:        { label: 'Новий',        badge: 'bg-warning text-dark' },
+  Processing: { label: 'В обробці',    badge: 'bg-info text-white' },
+  Completed:  { label: 'Виконано',     badge: 'bg-success text-white' },
+  Canceled:   { label: 'Скасовано',    badge: 'bg-danger text-white' },
+}
 
-const iconClass = computed(() => {
-  const icons = {
-    'Новый': 'bi bi-star-fill',
-    'В обработке': 'bi bi-clock-fill',
-    'Доставляется': 'bi bi-truck',
-    'Выполнен': 'bi bi-check-circle-fill',
-    'Отменен': 'bi bi-x-circle-fill'
-  }
-  return icons[props.status] || 'bi bi-circle-fill'
-})
+const ICON_MAP = {
+  New:        'bi bi-star-fill',
+  Processing: 'bi bi-clock-fill',
+  Completed:  'bi bi-check-circle-fill',
+  Canceled:   'bi bi-x-circle-fill',
+}
+
+const label = computed(() => STATUS_MAP[props.status]?.label ?? props.status)
+const badgeClass = computed(() => STATUS_MAP[props.status]?.badge ?? 'bg-secondary text-white')
+const iconClass = computed(() => ICON_MAP[props.status] ?? 'bi bi-circle-fill')
 </script>
 
 <style scoped>

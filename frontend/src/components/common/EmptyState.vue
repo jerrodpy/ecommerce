@@ -1,10 +1,10 @@
 <template>
   <div class="empty-state text-center py-5">
-    <i :class="iconClass" class="display-1 text-muted mb-3"></i>
+    <i :class="icon" class="display-1 text-muted mb-3"></i>
     <h4 class="text-muted mb-3">{{ title }}</h4>
     <p class="text-muted mb-4">{{ description }}</p>
     <slot name="action">
-      <button 
+      <button
         v-if="actionText"
         @click="$emit('action')"
         class="btn btn-primary"
@@ -17,20 +17,18 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
-
-const props = defineProps({
+defineProps({
   icon: {
     type: String,
     default: 'bi bi-inbox'
   },
   title: {
     type: String,
-    default: 'Нет данных'
+    default: 'Немає даних'
   },
   description: {
     type: String,
-    default: 'Здесь пока ничего нет'
+    default: 'Тут поки нічого немає'
   },
   actionText: {
     type: String,
@@ -43,8 +41,6 @@ const props = defineProps({
 })
 
 defineEmits(['action'])
-
-const iconClass = computed(() => props.icon)
 </script>
 
 <style scoped>

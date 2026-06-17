@@ -1,7 +1,7 @@
 <template>
   <div class="loading-spinner" :class="{ 'fullscreen': fullscreen }">
     <div class="spinner-border" :class="sizeClass" :style="{ color: color }" role="status">
-      <span class="visually-hidden">Загрузка...</span>
+      <span class="visually-hidden">Завантаження...</span>
     </div>
     <p v-if="text" class="mt-3 text-muted">{{ text }}</p>
   </div>
@@ -13,7 +13,7 @@ import { computed } from 'vue'
 const props = defineProps({
   size: {
     type: String,
-    default: 'md', // sm, md, lg
+    default: 'md',
     validator: (value) => ['sm', 'md', 'lg'].includes(value)
   },
   color: {

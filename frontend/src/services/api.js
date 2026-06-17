@@ -9,7 +9,7 @@ function buildQueryString(params) {
         const result = []
 
         for (const key in obj) {
-            if (!obj.hasOwnProperty(key)) continue
+            if (!Object.hasOwn(obj, key)) continue
 
             const value = obj[key]
             const fullKey = prefix ? `${prefix}[${key}]` : key
@@ -36,58 +36,55 @@ function buildQueryString(params) {
 
 async function request(endpoint, options = {}) {
 
-    // localStorage.getItem(STORAGE_GUEST_KEY)
     const queryString = options.params ? buildQueryString(options.params) : ''
     const url = `${API_URL}${endpoint}${queryString}`
     const token = localStorage.getItem('token')
+    const isFormData = options.body instanceof FormData
     const headers = {
-        'Content-Type': 'application/json',
+        ...(isFormData ? {} : {'Content-Type': 'application/json'}),
         ...options.headers,
     }
 
     if (token) {
         headers['Authorization'] = `Bearer ${token}`
     }
-
+    let response, data
     try {
-        const response = await fetch(url, {
+        response = await fetch(url, {
             method: options.method || 'GET',
             headers,
             ...(options.body && {body: options.body}),
         })
-
-        const data = await response.json()
-
-        if (!response.ok) {
-            handleError(response.status, data)
-        }
-
-        return data
-    } catch (error) {
-        console.error('Network error:', error)
-        throw new Error('Ошибка соединения с сервером')
+        data = await response.json()
+    } catch {
+        throw new Error('Помилка з\'єднання з сервером')
     }
+
+    if (!response.ok) {
+        handleError(response.status, data)
+    }
+    return data
 }
 
 function handleError(status, data) {
-    const message = data.message || data.error || 'Произошла ошибка'
+    const message = data.message || data.error || 'Сталася помилка'
 
     switch (status) {
         case 400:
-            throw new Error(`Неверный запрос: ${message}`)
+            throw new Error(`Невірний запит: ${message}`)
         case 401:
             localStorage.removeItem('token')
             localStorage.removeItem('user')
             window.location.href = '/auth'
-            throw new Error('Требуется авторизация')
+            throw new Error('Потрібна авторизація')
         case 403:
-            throw new Error('Доступ запрещен')
+            throw new Error('Доступ заборонено')
         case 404:
-            throw new Error('Ресурс не найден')
+            throw new Error('Ресурс не знайдено')
         case 422:
-            throw new Error(`Ошибка валидации: ${message}`)
+            throw new Error(`Помилка валідації: ${message}`)
         case 500:
-            throw new Error('Ошибка сервера')
+            throw new Error('Помилка сервера')
         default:
             throw new Error(message)
     }
@@ -99,6 +96,11 @@ export const api = {
     post: (endpoint, data) => request(endpoint, {
         method: 'POST',
         body: JSON.stringify(data),
+    }),
+
+    postForm: (endpoint, data) => request(endpoint, {
+        method: 'POST',
+        body: data,
     }),
 
     put: (endpoint, data) => request(endpoint, {
