@@ -80,7 +80,7 @@ services:
         - REDIS_HOST=redis
         - REDIS_PORT=6379
         - REDIS_PASSWORD=${REDIS_PASSWORD}
-      command: tail -f /dev/null
+      command: sh -c "cd /var/www/html/frontend && npm install && npm run dev -- --host 0.0.0.0"
       networks:
         - ecommerce
       stdin_open: true

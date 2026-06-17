@@ -7,7 +7,7 @@ RUN apt-get update && apt-get install -y \
     bash \
     && rm -rf /var/lib/apt/lists/*
 
-RUN npm install -g @vue/cli @vue/cli-service
+RUN npm install -g @vue/cli @vue/cli-service prettier
 
 WORKDIR /app
 

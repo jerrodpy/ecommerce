@@ -81,7 +81,7 @@ RUN mkdir -p /var/www && \
 COPY ./entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
-WORKDIR /var/www
+WORKDIR /var
 
 EXPOSE 9000 9001
 ENTRYPOINT ["/entrypoint.sh"]
