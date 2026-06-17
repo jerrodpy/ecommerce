@@ -13,6 +13,7 @@ class CategoryResource extends JsonResource
         return [
             Category::COLUMN_ID => $this->{Category::COLUMN_ID},
             Category::COLUMN_TITLE => $this->{Category::COLUMN_TITLE},
+            'products_count' => $this->products_count ?? 0,
         ];
     }
 }

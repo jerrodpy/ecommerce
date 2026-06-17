@@ -12,9 +12,9 @@ class CartItemResource extends JsonResource
     {
         return [
             'product_id' => $this->resource->pivot->product_id,
-            'quantity'   => $this->resource->pivot->quantity,
-            'product'    => [
-                Product::COLUMN_ID    => $this->resource->{Product::COLUMN_ID},
+            'quantity' => $this->resource->pivot->quantity,
+            'product' => [
+                Product::COLUMN_ID => $this->resource->{Product::COLUMN_ID},
                 Product::COLUMN_TITLE => $this->resource->{Product::COLUMN_TITLE},
                 Product::COLUMN_PRICE => $this->resource->{Product::COLUMN_PRICE},
                 Product::COLUMN_IMAGE => $this->resource->{Product::COLUMN_IMAGE},

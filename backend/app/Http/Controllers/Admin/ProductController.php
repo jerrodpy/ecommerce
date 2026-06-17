@@ -22,7 +22,7 @@ class ProductController extends BaseController
 
     public function index(ListWithPaginationRequest $request): JsonResponse
     {
-        $this->setData($this->productRepository->paginate($request->validated()));
+        $this->setData($this->productRepository->paginateWithCategories($request->validated()));
 
         return $this->sendResponse();
     }
@@ -44,6 +44,18 @@ class ProductController extends BaseController
     public function update(ProductRequest $request, Product $product): JsonResponse
     {
         $product = $this->productService->update($request, $product);
+
+        $this->setData(ProductResource::make($product));
+
+        return $this->sendResponse();
+    }
+
+    /**
+     * @throws \Throwable
+     */
+    public function uploadImage(ProductRequest $request, Product $product): JsonResponse
+    {
+        $product = $this->productService->uploadImage($request, $product);
 
         $this->setData(ProductResource::make($product));
 

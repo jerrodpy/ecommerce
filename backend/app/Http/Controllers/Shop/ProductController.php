@@ -17,7 +17,7 @@ class ProductController extends BaseController
 
     public function index(ListProductRequest $request)
     {
-        $this->setData($this->productRepository->paginate($request->validated()));
+        $this->setData($this->productRepository->paginateWithCategories($request->validated()));
 
         return $this->sendResponse();
     }

@@ -13,13 +13,27 @@ class CategoryRepository extends BaseRepository
 {
     protected string $class = Category::class;
 
+    private bool $withProductsCount = false;
+
     public function store(array $data): Category
     {
         return $this->getModel()->create($data);
     }
 
+    public function paginateWithProductsCount(array $filter = []): array
+    {
+        $this->withProductsCount = true;
+
+        return $this->paginate($filter);
+    }
+
     protected function modifyQuery(Builder $builder, array $filterBy = []): Builder
     {
+        if ($this->withProductsCount) {
+            $builder->withCount(Category::RELATION_PRODUCTS);
+            $this->withProductsCount = false;
+        }
+
         $title = Arr::get($filterBy, Category::COLUMN_TITLE);
 
         return $builder->when($title, fn ($builder) => $builder->where(Category::COLUMN_TITLE, $title));

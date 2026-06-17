@@ -28,9 +28,8 @@ Route::group([
         ], function () {
             Route::get('/', [CartController::class, 'show'])->name('cart.show');
             Route::post('items', [CartController::class, 'store'])->name('cart.products.store');
-//            Route::put('{cart}/products/add', [CartController::class, 'addProduct'])->name('cart.products.add');
             Route::put('{cart}/products/{product}', [CartController::class, 'updateProduct'])->name('cart.products.update');
-            Route::delete('items/{product}', [CartController::class, 'deleteProduct'])->name('cart.products.delete');
+            Route::delete('{cart}/products/{product}', [CartController::class, 'deleteProduct'])->name('cart.products.delete');
         });
 
         Route::post('orders', [OrderController::class, 'store'])->name('cart.orders.store');
@@ -46,6 +45,9 @@ Route::group([
         Route::group([
             'middleware' => ['auth:sanctum'],
         ], function () {
+            Route::post('products/{product}/image', [\App\Http\Controllers\Admin\ProductController::class, 'uploadImage'])
+                ->name('admin.products.uploadImage');
+
             Route::resources([
                 'categories' => \App\Http\Controllers\Admin\CategoryController::class,
                 'products' => \App\Http\Controllers\Admin\ProductController::class,

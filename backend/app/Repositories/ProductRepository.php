@@ -18,13 +18,27 @@ class ProductRepository extends BaseRepository
 
     protected string $class = Product::class;
 
+    private bool $withCategories = false;
+
     public function store(array $data): Product
     {
         return $this->getModel()->create($data);
     }
 
+    public function paginateWithCategories(array $filter = []): array
+    {
+        $this->withCategories = true;
+
+        return $this->paginate($filter);
+    }
+
     protected function modifyQuery(Builder $builder, array $filterBy = []): Builder
     {
+        if ($this->withCategories) {
+            $builder->with(Product::RELATION_CATEGORIES);
+            $this->withCategories = false;
+        }
+
         $title = Arr::get($filterBy, Product::COLUMN_TITLE);
         $categoryId = Arr::get($filterBy, CategoryProduct::COLUMN_CATEGORY_ID);
         $description = Arr::get($filterBy, Product::COLUMN_DESCRIPTION);
@@ -43,8 +57,8 @@ class ProductRepository extends BaseRepository
                         Product::RELATION_CATEGORIES,
                         fn (Builder $builder) => $builder
                             ->where(CategoryProduct::COLUMN_CATEGORY_ID, $categoryId)
-                )
-        );
+                    )
+            );
     }
 
     protected function wrapResource(array $items): AnonymousResourceCollection

@@ -32,7 +32,11 @@ class ProductService
 
         try {
             $product = $this->productRepository->store($payload);
-            $product->categories()->attach($categories);
+
+            if ($categories) {
+                $product->categories()->attach($categories);
+            }
+
             $this->updateImage($product, $image);
 
             return $product;
@@ -52,25 +56,35 @@ class ProductService
     public function update(ProductRequest $request, Product $product): Product
     {
         $payload = $request->validated();
-
-        $image = Arr::pull($payload, Product::COLUMN_IMAGE);
         $categories = Arr::pull($payload, Product::RELATION_CATEGORIES);
+        Arr::pull($payload, Product::COLUMN_IMAGE);
 
         $product->update($payload);
 
-        try {
-            if ($categories !== null) {
-                $product->categories()->sync($categories);
-            }
+        if ($categories !== null) {
+            $product->categories()->sync($categories);
+        }
 
-            $this->updateImage($product, $image);
+        $product->load(Product::RELATION_CATEGORIES);
+
+        return $product;
+    }
+
+    /**
+     * @throws Throwable
+     */
+    public function uploadImage(ProductRequest $request, Product $product): Product
+    {
+        $payload = $request->validated();
+        $file = Arr::pull($payload, Product::COLUMN_IMAGE);
+
+        try {
+            $this->updateImage($product, $file);
+            $product->load(Product::RELATION_CATEGORIES);
 
             return $product;
         } catch (Throwable $exception) {
-            $this->deletedImage($product);
-            $product?->delete();
-
-            Log::error("An error occurred while creating the product. {$exception->getMessage()}");
+            Log::error("An error occurred while uploading the product image. {$exception->getMessage()}");
 
             throw $exception;
         }
@@ -109,7 +123,7 @@ class ProductService
             Storage::disk()->delete($imageOldUrl);
         }
 
-        $imageUrl = Storage::disk()->putFileAs($savePath, $file, $filename);
+        $imageUrl = Storage::disk('public')->putFileAs($savePath, $file, $filename);
 
         $product->update([Product::COLUMN_IMAGE => $imageUrl]);
     }
@@ -121,11 +135,11 @@ class ProductService
         }
 
         $imageUrl = $product->{Product::COLUMN_IMAGE};
-        Storage::disk()->delete($imageUrl);
+        Storage::disk('public')->delete($imageUrl);
         $directory = dirname($imageUrl);
 
-        if (empty(Storage::disk()->files($directory)) && empty(Storage::disk()->directories($directory))) {
-            Storage::disk()->deleteDirectory($directory);
+        if (empty(Storage::disk('public')->files($directory)) && empty(Storage::disk('public')->directories($directory))) {
+            Storage::disk('public')->deleteDirectory($directory);
         }
     }
 }
